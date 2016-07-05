@@ -1,0 +1,32 @@
+{
+  "name": "lora-serialization",
+  "version": "1.0.0",
+  "description": "LoraWAN serialization/deserialization library for The Things Network",
+  "main": "src/decoder.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+     "type": "git",
+     "url": "https://github.com/thesolarnomad/lora-serialization"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "lora",
+    "lorawan",
+    "ttn",
+    "thethingsnetwork",
+    "arduino",
+    "serialization",
+    "deserialization",
+    "cpp"
+  ],
+  "author": "Joscha Feth <joscha@feth.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
+  }
+}
