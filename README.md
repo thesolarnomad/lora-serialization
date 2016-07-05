@@ -1,5 +1,6 @@
 # [![Build Status](https://travis-ci.org/thesolarnomad/lora-serialization.svg?branch=master)](https://travis-ci.org/thesolarnomad/lora-serialization) LoRaWAN serialization/deserialization library for The Things Network
 
+This library allows you to encode your data on the Arduino site and decode it on the [TTN](https://staging.thethingsnetwork.org/) side. It provides both a C-based encoder and a JavaScript-based decoder.
 
 ## Usage
 
