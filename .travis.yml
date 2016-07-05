@@ -4,3 +4,5 @@ node_js:
 script:
   - npm test
   - cd test && make clean all test
+notifications:
+  email: false
