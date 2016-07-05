@@ -1,4 +1,4 @@
-# LoRaWAN serialization/deserialization library for The Things Network
+# [![Build Status](https://travis-ci.org/thesolarnomad/lora-serialization.svg?branch=master)](https://travis-ci.org/thesolarnomad/lora-serialization) LoRaWAN serialization/deserialization library for The Things Network
 
 
 ## Usage
