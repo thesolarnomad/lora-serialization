@@ -23,4 +23,13 @@ TEST_CASE( "LoRaWAN Serialization", "[LoRaWAN]" ) {
         latLngToBytes(x, -33.905052, 151.26641);
         compare_array(expected, x, 0, sizeof(expected));
     }
+
+    SECTION( "intToBytes should transform an int to a byte array" ) {
+        byte x[] = {-1, -1};
+        byte expected[] = {0x9d, 0x5b};
+
+        intToBytes(x, 23453);
+        printByteArrayToHex(x);
+        compare_array(expected, x, 0, sizeof(expected));
+    }
 }

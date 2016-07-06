@@ -40,6 +40,23 @@ describe('Decoder', () => {
         });
     });
 
+    const intBytes = new Buffer([0x9d, 0x5b]);
+    const int = 23453;
+
+    describe('int', () => {
+        it('should yell at you if the buffer is omitted', () => {
+            expect(() => decoder.int()).to.throw;
+        });
+        it('should yell at you if the buffer size is incorrect', () => {
+            expect(() => decoder.int(new Buffer(1))).to.throw;
+        });
+        it('should be possible to decode an int', () => {
+            decoder
+                .int(intBytes)
+                .should.be.equal(int);
+        });
+    });
+
     describe('decode', () => {
         it('should be able to compose decoder functions', () => {
             decoder
