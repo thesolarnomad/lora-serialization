@@ -32,19 +32,19 @@ and then in the TTN frontend, use the following method:
 latLng(bytes.slice(x, x + 8)) // [-33.905052, 151.26641]
 ```
 
-### Integer (16bit)
+### Unsigned Integer (16bit)
 Serializes/deserializes an unsigned 16bit integer.
 
 ```cpp
 byte buffer[2];
-int16_t i = 23453;
-intToBytes(buffer, i);
+uint16_t i = 23453;
+uintToBytes(buffer, i);
 // buffer = {0x9d, 0x5b}
 ```
 and then in the TTN frontend, use the following method:
 
 ```javascript
-int(bytes.slice(x, x + 2)) // 23453
+uint(bytes.slice(x, x + 2)) // 23453
 ```
 
 ### Temperature
