@@ -1,5 +1,5 @@
 void intToBytes(byte *buf, int32_t i, uint8_t byteSize) {
-    for(int x = 0; x < byteSize; x++) {
+    for(uint8_t x = 0; x < byteSize; x++) {
         buf[x] = (byte) (i >> (x*8));
     }
 }
@@ -18,4 +18,17 @@ void latLngToBytes(byte *buf, double latitude, double longitude) {
 
 void intToBytes(byte *buf, int16_t i) {
     intToBytes(buf, i, 2);
+}
+
+/**
+* Uses a 16bit two's complement with two decimals, so the range is
+* -327.68 to +327.67 degrees
+*/
+void tempToBytes(byte *buf, float temperature) {
+    int16_t t = (int16_t) (temperature * 100);
+    if(temperature < 0) {
+        t = ~t;
+        t = t + 1;
+    }
+    intToBytes(buf, t, 2);
 }

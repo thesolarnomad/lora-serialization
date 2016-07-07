@@ -57,19 +57,51 @@ describe('Decoder', () => {
         });
     });
 
+    const tempBytes = new Buffer([0x4c, 0x1f]);
+    const temp = 80.12;
+
+    describe('temp', () => {
+        it('should yell at you if the buffer is omitted', () => {
+            expect(() => decoder.temp()).to.throw;
+        });
+        it('should yell at you if the buffer size is incorrect', () => {
+            expect(() => decoder.temp(new Buffer(1))).to.throw;
+        });
+        it('should be possible to decode a temperature', () => {
+            decoder
+                .temp(tempBytes)
+                .should.be.equal(temp);
+        });
+
+        it('should be possible to decode a negative temperature', () => {
+            decoder
+                .temp(new Buffer([0x39, 0x30]))
+                .should.be.equal(-123.45);
+        });
+    });
+
     describe('decode', () => {
         it('should be able to compose decoder functions', () => {
             decoder
                 .decode(
-                    Buffer.concat([latLngBytes, unixtimeBytes]),
+                    Buffer.concat([
+                        latLngBytes,
+                        unixtimeBytes,
+                        intBytes,
+                        tempBytes
+                    ]),
                     [
                         decoder.latLng,
-                        decoder.unixtime
+                        decoder.unixtime,
+                        decoder.int,
+                        decoder.temp
                     ]
                 )
                 .should.be.deep.equal({
                     0: latLng,
-                    1: unixtime
+                    1: unixtime,
+                    2: int,
+                    3: temp
                 });
         });
 

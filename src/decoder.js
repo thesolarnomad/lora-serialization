@@ -34,6 +34,20 @@ var latLng = function(bytes) {
 }
 latLng.BYTES = 8;
 
+var temp = function(bytes) {
+    if (bytes.length !== 2) {
+        throw new Error('Temperature must have exactly 2 bytes');
+    }
+
+    var t = bytesToInt(bytes);
+    if (!!(bytes[1] & 0x60)) {
+        t = ~t + 1;
+    }
+
+    return t / 1e2;
+}
+temp.BYTES = 2;
+
 var decode = function(bytes, mask, names) {
 
     var maskLength = mask.reduce(function(prev, cur) {
@@ -60,6 +74,7 @@ if (module) {
     module.exports = {
         unixtime: unixtime,
         int: int,
+        temp: temp,
         latLng: latLng,
         decode: decode
     };

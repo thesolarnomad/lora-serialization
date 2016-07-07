@@ -5,6 +5,8 @@ This library allows you to encode your data on the Arduino site and decode it on
 ## Usage
 
 ### Unix time
+Serializes/deserializes a unix time (seconds)
+
 ```cpp
 byte buffer[4];
 unixtimeToBytes(buffer, 1467632413);
@@ -17,6 +19,8 @@ unixtime(bytes.slice(x, x + 4)) // 1467632413
 ```
 
 ### GPS coordinates
+Serializes/deserializes coordinates (latitude/longitude) with a precision of 6 decimals.
+
 ```cpp
 byte buffer[8];
 latLngToBytes(buffer, -33.905052, 151.26641);
@@ -29,6 +33,8 @@ latLng(bytes.slice(x, x + 8)) // [-33.905052, 151.26641]
 ```
 
 ### Integer (16bit)
+Serializes/deserializes an unsigned 16bit integer.
+
 ```cpp
 byte buffer[2];
 int16_t i = 23453;
@@ -39,6 +45,20 @@ and then in the TTN frontend, use the following method:
 
 ```javascript
 int(bytes.slice(x, x + 2)) // 23453
+```
+
+### Temperature
+Serializes/deserializes a temperature reading between -327.68 and +327.67 (inclusive) with a precision of 2 decimals.
+
+```cpp
+byte buffer[2];
+tempToBytes(buffer, -123.45);
+// buffer = {0x39, 0x30}
+```
+and then in the TTN frontend, use the following method:
+
+```javascript
+temp(bytes.slice(x, x + 2)) // -123.45
 ```
 
 ### Composition in the TTN decoder frontend with the `decode` method
