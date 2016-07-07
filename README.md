@@ -38,13 +38,13 @@ Serializes/deserializes an unsigned 16bit integer.
 ```cpp
 byte buffer[2];
 uint16_t i = 23453;
-uintToBytes(buffer, i);
+uint16ToBytes(buffer, i);
 // buffer = {0x9d, 0x5b}
 ```
 and then in the TTN frontend, use the following method:
 
 ```javascript
-uint(bytes.slice(x, x + 2)) // 23453
+uint16(bytes.slice(x, x + 2)) // 23453
 ```
 
 ### Temperature

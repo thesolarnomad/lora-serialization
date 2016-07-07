@@ -40,20 +40,20 @@ describe('Decoder', () => {
         });
     });
 
-    const uintBytes = new Buffer([0x9d, 0x5b]);
-    const uint = 23453;
+    const uint16Bytes = new Buffer([0x9d, 0x5b]);
+    const uint16 = 23453;
 
-    describe('uint', () => {
+    describe('uint16', () => {
         it('should yell at you if the buffer is omitted', () => {
-            expect(() => decoder.uint()).to.throw;
+            expect(() => decoder.uint16()).to.throw;
         });
         it('should yell at you if the buffer size is incorrect', () => {
-            expect(() => decoder.uint(new Buffer(1))).to.throw;
+            expect(() => decoder.uint16(new Buffer(1))).to.throw;
         });
         it('should be possible to decode an int', () => {
             decoder
-                .uint(uintBytes)
-                .should.be.equal(uint);
+                .uint16(uint16Bytes)
+                .should.be.equal(uint16);
         });
     });
 
@@ -87,20 +87,20 @@ describe('Decoder', () => {
                     Buffer.concat([
                         latLngBytes,
                         unixtimeBytes,
-                        uintBytes,
+                        uint16Bytes,
                         tempBytes
                     ]),
                     [
                         decoder.latLng,
                         decoder.unixtime,
-                        decoder.uint,
+                        decoder.uint16,
                         decoder.temp
                     ]
                 )
                 .should.be.deep.equal({
                     0: latLng,
                     1: unixtime,
-                    2: uint,
+                    2: uint16,
                     3: temp
                 });
         });
