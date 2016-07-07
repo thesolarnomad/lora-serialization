@@ -32,7 +32,7 @@ TEST_CASE( "LoRaWAN Serialization", "[LoRaWAN]" ) {
         compare_array(expected, x, 0, sizeof(expected));
     }
 
-    SECTION( "temperatureToBytes should transform a temperature to a byte array" ) {
+    SECTION( "tempToBytes should transform a temperature to a byte array" ) {
         byte x[] = {-1, -1};
         byte expected[] = {0x4c, 0x1f};
 
@@ -40,7 +40,7 @@ TEST_CASE( "LoRaWAN Serialization", "[LoRaWAN]" ) {
         compare_array(expected, x, 0, sizeof(expected));
     }
 
-    SECTION( "temperatureToBytes should transform a negative temperature to a byte array" ) {
+    SECTION( "tempToBytes should transform a negative temperature to a byte array" ) {
         byte x[] = {-1, -1};
         byte expected[] = {0x39, 0x30};
 
