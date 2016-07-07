@@ -16,7 +16,7 @@ void latLngToBytes(byte *buf, double latitude, double longitude) {
     intToBytes(buf + 4, lng, 4);
 }
 
-void intToBytes(byte *buf, int16_t i) {
+void uintToBytes(byte *buf, uint16_t i) {
     intToBytes(buf, i, 2);
 }
 

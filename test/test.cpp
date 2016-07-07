@@ -28,8 +28,7 @@ TEST_CASE( "LoRaWAN Serialization", "[LoRaWAN]" ) {
         byte x[] = {-1, -1};
         byte expected[] = {0x9d, 0x5b};
 
-        intToBytes(x, 23453);
-        printByteArrayToHex(x);
+        uintToBytes(x, 23453);
         compare_array(expected, x, 0, sizeof(expected));
     }
 
