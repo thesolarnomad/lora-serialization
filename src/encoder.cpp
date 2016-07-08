@@ -1,3 +1,8 @@
+#if ARDUINO >= 100
+ #include "Arduino.h"
+#endif
+#include "encoder.h"
+
 void intToBytes(byte *buf, int32_t i, uint8_t byteSize) {
     for(uint8_t x = 0; x < byteSize; x++) {
         buf[x] = (byte) (i >> (x*8));
