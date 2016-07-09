@@ -88,7 +88,7 @@ var decode = function(bytes, mask, names) {
         }, {});
 }
 
-if (module) {
+if (typeof module === 'object' && typeof module.exports !== 'undefined') {
     module.exports = {
         unixtime: unixtime,
         uint8: uint8,
