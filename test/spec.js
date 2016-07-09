@@ -122,20 +122,26 @@ describe('Decoder', () => {
                         latLngBytes,
                         unixtimeBytes,
                         uint16Bytes,
-                        tempBytes
+                        tempBytes,
+                        uint8Bytes,
+                        humidityBytes
                     ]),
                     [
                         decoder.latLng,
                         decoder.unixtime,
                         decoder.uint16,
-                        decoder.temp
+                        decoder.temp,
+                        decoder.uint8,
+                        decoder.humidity
                     ]
                 )
                 .should.be.deep.equal({
                     0: latLng,
                     1: unixtime,
                     2: uint16,
-                    3: temp
+                    3: temp,
+                    4: uint8,
+                    5: humidity
                 });
         });
 
