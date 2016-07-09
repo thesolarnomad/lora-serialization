@@ -24,6 +24,14 @@ TEST_CASE( "LoRaWAN Serialization", "[LoRaWAN]" ) {
         compare_array(expected, x, 0, sizeof(expected));
     }
 
+    SECTION( "uint8ToBytes should transform an unsigned 8bit int to a byte array" ) {
+        byte x[] = {-1};
+        byte expected[] = {0x0A};
+
+        uint8ToBytes(x, 10);
+        compare_array(expected, x, 0, sizeof(expected));
+    }
+
     SECTION( "uint16ToBytes should transform an unsigned 16bit int to a byte array" ) {
         byte x[] = {-1, -1};
         byte expected[] = {0x9d, 0x5b};

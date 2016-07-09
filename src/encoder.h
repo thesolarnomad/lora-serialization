@@ -21,3 +21,7 @@ void uint16ToBytes(byte *buf, uint16_t i);
 #ifndef tempToBytes
 void tempToBytes(byte *buf, float temperature);
 #endif
+
+#ifndef uint8ToBytes
+void uint8ToBytes(byte *buf, uint8_t i);
+#endif

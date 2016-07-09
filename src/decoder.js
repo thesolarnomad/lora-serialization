@@ -14,6 +14,14 @@ var unixtime = function(bytes) {
 };
 unixtime.BYTES = 4;
 
+var uint8 = function(bytes) {
+    if (bytes.length !== 1) {
+        throw new Error('int must have exactly 2 bytes');
+    }
+    return bytesToInt(bytes);
+}
+uint8.BYTES = 1;
+
 var uint16 = function(bytes) {
     if (bytes.length !== 2) {
         throw new Error('int must have exactly 2 bytes');
@@ -73,6 +81,7 @@ var decode = function(bytes, mask, names) {
 if (module) {
     module.exports = {
         unixtime: unixtime,
+        uint8: uint8,
         uint16: uint16,
         temp: temp,
         latLng: latLng,

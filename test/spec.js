@@ -57,6 +57,23 @@ describe('Decoder', () => {
         });
     });
 
+    const uint8Bytes = new Buffer([0xFF]);
+    const uint8 = 255;
+
+    describe('uint8', () => {
+        it('should yell at you if the buffer is omitted', () => {
+            expect(() => decoder.uint8()).to.throw;
+        });
+        it('should yell at you if the buffer size is incorrect', () => {
+            expect(() => decoder.uint8(new Buffer(2))).to.throw;
+        });
+        it('should be possible to decode an int', () => {
+            decoder
+                .uint8(uint8Bytes)
+                .should.be.equal(uint8);
+        });
+    });
+
     const tempBytes = new Buffer([0x4c, 0x1f]);
     const temp = 80.12;
 

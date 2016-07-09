@@ -25,6 +25,10 @@ void uint16ToBytes(byte *buf, uint16_t i) {
     intToBytes(buf, i, 2);
 }
 
+void uint8ToBytes(byte *buf, uint8_t i) {
+    intToBytes(buf, i, 1);
+}
+
 /**
 * Uses a 16bit two's complement with two decimals, so the range is
 * -327.68 to +327.67 degrees
