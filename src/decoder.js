@@ -56,6 +56,16 @@ var temp = function(bytes) {
 }
 temp.BYTES = 2;
 
+var humidity = function(bytes) {
+    if (bytes.length !== 2) {
+        throw new Error('Humidity must have exactly 2 bytes');
+    }
+
+    var h = bytesToInt(bytes);
+    return h / 1e2;
+}
+humidity.BYTES = 2;
+
 var decode = function(bytes, mask, names) {
 
     var maskLength = mask.reduce(function(prev, cur) {
@@ -84,6 +94,7 @@ if (module) {
         uint8: uint8,
         uint16: uint16,
         temp: temp,
+        humidity: humidity,
         latLng: latLng,
         decode: decode
     };

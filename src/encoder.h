@@ -25,3 +25,7 @@ void tempToBytes(byte *buf, float temperature);
 #ifndef uint8ToBytes
 void uint8ToBytes(byte *buf, uint8_t i);
 #endif
+
+#ifndef humidityToBytes
+void humidityToBytes(byte *buf, float humidity);
+#endif

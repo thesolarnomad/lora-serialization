@@ -29,6 +29,11 @@ void uint8ToBytes(byte *buf, uint8_t i) {
     intToBytes(buf, i, 1);
 }
 
+void humidityToBytes(byte *buf, float humidity) {
+    int16_t h = (int16_t) (humidity * 100);
+    intToBytes(buf, h, 2);
+}
+
 /**
 * Uses a 16bit two's complement with two decimals, so the range is
 * -327.68 to +327.67 degrees

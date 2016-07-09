@@ -55,4 +55,12 @@ TEST_CASE( "LoRaWAN Serialization", "[LoRaWAN]" ) {
         tempToBytes(x, -123.45);
         compare_array(expected, x, 0, sizeof(expected));
     }
+
+    SECTION( "humidityToBytes should transform a humidity to a byte array" ) {
+        byte x[] = {-1, -1};
+        byte expected[] = {0x0f, 0x27};
+
+        tempToBytes(x, 99.99);
+        compare_array(expected, x, 0, sizeof(expected));
+    }
 }

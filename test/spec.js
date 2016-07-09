@@ -97,6 +97,23 @@ describe('Decoder', () => {
         });
     });
 
+    const humidityBytes = new Buffer([0x0f, 0x27]);
+    const humidity = 99.99;
+
+    describe('humidity', () => {
+        it('should yell at you if the buffer is omitted', () => {
+            expect(() => decoder.humidity()).to.throw;
+        });
+        it('should yell at you if the buffer size is incorrect', () => {
+            expect(() => decoder.humidity(new Buffer(1))).to.throw;
+        });
+        it('should be possible to decode a humidity', () => {
+            decoder
+                .humidity(humidityBytes)
+                .should.be.equal(humidity);
+        });
+    });
+
     describe('decode', () => {
         it('should be able to compose decoder functions', () => {
             decoder
