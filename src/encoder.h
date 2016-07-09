@@ -2,10 +2,6 @@
  #include "Arduino.h"
 #endif
 
-#ifndef intToBytes
-void intToBytes(byte *buf, int32_t i, uint8_t byteSize);
-#endif
-
 #ifndef unixtimeToBytes
 void unixtimeToBytes(byte *buf, uint32_t unixtime);
 #endif
