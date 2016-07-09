@@ -32,6 +32,21 @@ and then in the TTN frontend, use the following method:
 latLng(bytes.slice(x, x + 8)) // [-33.905052, 151.26641]
 ```
 
+### Unsigned Integer (8bit)
+Serializes/deserializes an unsigned 8bit integer.
+
+```cpp
+byte buffer[1];
+uint8_t i = 10;
+uint8ToBytes(buffer, i);
+// buffer = {0x0A}
+```
+and then in the TTN frontend, use the following method:
+
+```javascript
+uint8(bytes.slice(x, x + 1)) // 10
+```
+
 ### Unsigned Integer (16bit)
 Serializes/deserializes an unsigned 16bit integer.
 
@@ -59,6 +74,20 @@ and then in the TTN frontend, use the following method:
 
 ```javascript
 temp(bytes.slice(x, x + 2)) // -123.45
+```
+
+### Humidity
+Serializes/deserializes a humidity reading between 0 and 100 (inclusive) with a precision of 2 decimals.
+
+```cpp
+byte buffer[2];
+humidityToBytes(buffer, 99.99);
+// buffer = {0x0f, 0x27}
+```
+and then in the TTN frontend, use the following method:
+
+```javascript
+humidity(bytes.slice(x, x + 2)) // 99.99
 ```
 
 ### Composition in the TTN decoder frontend with the `decode` method
