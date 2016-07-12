@@ -4,7 +4,7 @@ This library allows you to encode your data on the Arduino site and decode it on
 
 ## Usage
 
-### Unix time
+### Unix time (4 bytes)
 Serializes/deserializes a unix time (seconds)
 
 ```cpp
@@ -18,7 +18,7 @@ and then in the TTN frontend, use the following method:
 unixtime(bytes.slice(x, x + 4)) // 1467632413
 ```
 
-### GPS coordinates
+### GPS coordinates (8 bytes)
 Serializes/deserializes coordinates (latitude/longitude) with a precision of 6 decimals.
 
 ```cpp
@@ -32,7 +32,7 @@ and then in the TTN frontend, use the following method:
 latLng(bytes.slice(x, x + 8)) // [-33.905052, 151.26641]
 ```
 
-### Unsigned Integer (8bit)
+### Unsigned 8bit Integer (1 byte)
 Serializes/deserializes an unsigned 8bit integer.
 
 ```cpp
@@ -47,7 +47,7 @@ and then in the TTN frontend, use the following method:
 uint8(bytes.slice(x, x + 1)) // 10
 ```
 
-### Unsigned Integer (16bit)
+### Unsigned 16bit Integer (2 bytes)
 Serializes/deserializes an unsigned 16bit integer.
 
 ```cpp
@@ -62,7 +62,7 @@ and then in the TTN frontend, use the following method:
 uint16(bytes.slice(x, x + 2)) // 23453
 ```
 
-### Temperature
+### Temperature (2 bytes)
 Serializes/deserializes a temperature reading between -327.68 and +327.67 (inclusive) with a precision of 2 decimals.
 
 ```cpp
@@ -76,7 +76,7 @@ and then in the TTN frontend, use the following method:
 temp(bytes.slice(x, x + 2)) // -123.45
 ```
 
-### Humidity
+### Humidity (2 bytes)
 Serializes/deserializes a humidity reading between 0 and 100 (inclusive) with a precision of 2 decimals.
 
 ```cpp
