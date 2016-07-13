@@ -120,3 +120,10 @@ You can use: `64 A6 FA FD 6A 24 04 09 1D 4B 7A 57` for testing, and it will resu
   "time": 1467632413
 }
 ```
+
+## Development
+
+* Run the unit tests (C) via `cd test && make clean all test`
+* Run the unit tests (JavaScript) via `npm test`
+
+The CI will kick off once you create a pull request automatically.
