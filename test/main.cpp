@@ -1,5 +1,5 @@
 #include "main.h"
 
 #include "helpers.cpp"
-#include "../src/encoder.cpp"
+#include "../src/LoraEncoder.cpp"
 #include "test.cpp"

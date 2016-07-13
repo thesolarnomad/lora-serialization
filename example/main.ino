@@ -1,10 +1,11 @@
-#include <encoder.h>
+#include <LoraEncoder.h>
 
-static mydata[12];
+byte mydata[12];
 
 void setup() {
-    unixtimeToBytes(mydata +  0, 1468075322);
-    latLngToBytes(mydata   +  4, -33.905024, 151.26648);
+    LoraEncoder encoder(mydata);
+    encoder.writeUnixtime(1468075322);
+    encoder.writeLatLng(-33.905024, 151.26648);
 
     do_send(&sendjob);
 }

@@ -9,4 +9,5 @@ void printByteArrayToHex(byte *arr) {
     for(int i = 0; i < sizeof(arr); i++) {
         printf("%02x", arr[i]);
     }
+    printf("\n");
 }
