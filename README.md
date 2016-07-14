@@ -1,6 +1,6 @@
 # [![Build Status](https://travis-ci.org/thesolarnomad/lora-serialization.svg?branch=master)](https://travis-ci.org/thesolarnomad/lora-serialization) LoRaWAN serialization/deserialization library for The Things Network
 
-This library allows you to encode your data on the Arduino site and decode it on the [TTN](https://staging.thethingsnetwork.org/) side. It provides both a C-based encoder and a JavaScript-based decoder.
+This fully unit-tested library allows you to encode your data on the Arduino site and decode it on the [TTN](https://staging.thethingsnetwork.org/) side. It provides both a C-based encoder and a JavaScript-based decoder.
 
 ## In short
 
@@ -116,7 +116,9 @@ and then in the TTN frontend, use the following method:
 humidity(bytes.slice(x, x + 2)) // 99.99
 ```
 
-## Composition on the Arduino side
+## Composition
+
+### On the Arduino side
 The decoder allows you to write more than one value to a byte array:
 ```cpp
 byte buffer[19];
@@ -139,7 +141,7 @@ encoder.writeHumidity(99.99);
 */
 ```
 
-## Convenience class `LoraMessage`
+#### Convenience class `LoraMessage`
 There is a convenience class that represents a LoraMessage that you can add readings to:
 ```cpp
 LoraMessage message;
