@@ -2,6 +2,26 @@
 
 This library allows you to encode your data on the Arduino site and decode it on the [TTN](https://staging.thethingsnetwork.org/) side. It provides both a C-based encoder and a JavaScript-based decoder.
 
+## In short
+
+Arduino side:
+```cpp
+#include "LoraMessage.h"
+LoraMessage message;
+
+message
+    .addUnixtime(1467632413)
+    .addLatLng(-33.905052, 151.26641);
+
+lora_send_bytes(message.getBytes(), message.getLength());
+delete message;
+```
+TTN side:
+```javascript
+// include src/decoder.js
+var json = decode(bytes, [unixtime, latLng], ['time', 'coords']);
+```
+
 ## Usage
 
 ### Unix time (4 bytes)
@@ -26,7 +46,7 @@ Serializes/deserializes coordinates (latitude/longitude) with a precision of 6 d
 byte buffer[8];
 LoraEncoder encoder(buffer);
 encoder.writeLatLng(-33.905052, 151.26641);
-// buffer = {0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09}
+// buffer == {0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09}
 ```
 and then in the TTN frontend, use the following method:
 
@@ -42,7 +62,7 @@ byte buffer[1];
 LoraEncoder encoder(buffer);
 uint8_t i = 10;
 encoder.writeUint8(i);
-// buffer = {0x0A}
+// buffer == {0x0A}
 ```
 and then in the TTN frontend, use the following method:
 
@@ -58,7 +78,7 @@ byte buffer[2];
 LoraEncoder encoder(buffer);
 uint16_t i = 23453;
 encoder.writeUint16(i);
-// buffer = {0x9d, 0x5b}
+// buffer == {0x9d, 0x5b}
 ```
 and then in the TTN frontend, use the following method:
 
@@ -73,7 +93,7 @@ Serializes/deserializes a temperature reading between -327.68 and +327.67 (inclu
 byte buffer[2];
 LoraEncoder encoder(buffer);
 encoder.writeTemperature(-123.45);
-// buffer = {0x39, 0x30}
+// buffer == {0x39, 0x30}
 ```
 and then in the TTN frontend, use the following method:
 
@@ -88,7 +108,7 @@ Serializes/deserializes a humidity reading between 0 and 100 (inclusive) with a 
 byte buffer[2];
 LoraEncoder encoder(buffer);
 encoder.writeHumidity(99.99);
-// buffer = {0x0f, 0x27}
+// buffer == {0x0f, 0x27}
 ```
 and then in the TTN frontend, use the following method:
 
@@ -108,14 +128,42 @@ encoder.writeUint8(10);
 encoder.writeUint16(23453);
 encoder.writeTemperature(80.12);
 encoder.writeHumidity(99.99);
-/* buffer = {
+/* buffer == {
     0x1d, 0x4b, 0x7a, 0x57, // Unixtime
-    0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09, // coordinate
+    0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09, // latitude,longitude
     0x0A, // Uint8
     0x9d, 0x5b, // Uint16
     0x4c, 0x1f, // temperature
     0x0f, 0x27 // humidity
 }
+*/
+```
+
+## Convenience class `LoraMessage`
+There is a convenience class that represents a LoraMessage that you can add readings to:
+```cpp
+LoraMessage message;
+
+message
+    .addUnixtime(1467632413)
+    .addLatLng(-33.905052, 151.26641)
+    .addUint8(10)
+    .addUint16(23453)
+    .addTemperature(80.12)
+    .addHumidity(99.99);
+
+send(message.getBytes(), message.getLength());
+/*
+getBytes() == {
+    0x1d, 0x4b, 0x7a, 0x57, // Unixtime
+    0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09, // latitude,longitude
+    0x0A, // Uint8
+    0x9d, 0x5b, // Uint16
+    0x4c, 0x1f, // temperature
+    0x0f, 0x27, // humidity
+}
+and
+getLength() == 19
 */
 ```
 

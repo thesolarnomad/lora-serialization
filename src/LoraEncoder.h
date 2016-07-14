@@ -24,8 +24,8 @@
   SOFTWARE.
 */
 
-#ifndef LoraEncoder_h
-#define LoraEncoder_h
+#ifndef _LORA_ENCODER_H_
+#define _LORA_ENCODER_H_
 
 #if ARDUINO >= 100
     #include "Arduino.h"

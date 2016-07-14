@@ -94,3 +94,91 @@ TEST_CASE( "LoRa Serialization", "[LoRa]" ) {
         compare_array(expected, x, 0, sizeof(expected));
     }
 }
+
+TEST_CASE( "LoRa Message", "[LoRa]" ) {
+    SECTION( "should provide a convenient way to add unixtime" ) {
+        uint32_t now = 1467632413;
+        byte expected[] = {0x1d, 0x4b, 0x7a, 0x57};
+        LoraMessage message;
+
+        message.addUnixtime(now);
+
+        REQUIRE(message.getLength() == sizeof(expected));
+        compare_array(expected, message.getBytes(), 0, sizeof(expected));
+    }
+
+    SECTION( "should provide a convenient way to add latLng" ) {
+        byte expected[] = {0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09};
+        LoraMessage message;
+
+        message.addLatLng(-33.905052, 151.26641);
+
+        REQUIRE(message.getLength() == sizeof(expected));
+        compare_array(expected, message.getBytes(), 0, sizeof(expected));
+    }
+
+    SECTION( "should provide a convenient way to add an unsigned 8bit int" ) {
+        byte expected[] = {0x0A};
+        LoraMessage message;
+
+        message.addUint8(10);
+
+        REQUIRE(message.getLength() == sizeof(expected));
+        compare_array(expected, message.getBytes(), 0, sizeof(expected));
+    }
+
+    SECTION( "should provide a convenient way to add an unsigned 16bit int" ) {
+        byte expected[] = {0x9d, 0x5b};
+        LoraMessage message;
+
+        message.addUint16(23453);
+
+        REQUIRE(message.getLength() == sizeof(expected));
+        compare_array(expected, message.getBytes(), 0, sizeof(expected));
+    }
+
+    SECTION( "should provide a convenient way to add a temperature" ) {
+        byte expected[] = {0x4c, 0x1f};
+        LoraMessage message;
+
+        message.addTemperature(80.12);
+
+        REQUIRE(message.getLength() == sizeof(expected));
+        compare_array(expected, message.getBytes(), 0, sizeof(expected));
+    }
+
+    SECTION( "should provide a convenient way to add a humidity" ) {
+        byte expected[] = {0x0f, 0x27};
+        LoraMessage message;
+
+        message.addHumidity(99.99);
+
+        REQUIRE(message.getLength() == sizeof(expected));
+        compare_array(expected, message.getBytes(), 0, sizeof(expected));
+    }
+
+    SECTION( "should allow chaining" ) {
+        byte expected[] = {
+            0x1d, 0x4b, 0x7a, 0x57, // Unixtime
+            0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09, // coordinate
+            0x0A, // Uint8
+            0x9d, 0x5b, // Uint16
+            0x4c, 0x1f, // temperature
+            0x0f, 0x27, // humidity
+            0x1e, 0x4b, 0x7a, 0x57, // Unixtime 2
+        };
+        LoraMessage message;
+
+        message
+            .addUnixtime(1467632413)
+            .addLatLng(-33.905052, 151.26641)
+            .addUint8(10)
+            .addUint16(23453)
+            .addTemperature(80.12)
+            .addHumidity(99.99)
+            .addUnixtime(1467632414);
+
+        REQUIRE(message.getLength() == sizeof(expected));
+        compare_array(expected, message.getBytes(), 0, sizeof(expected));
+    }
+}
