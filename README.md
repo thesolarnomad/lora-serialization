@@ -2,8 +2,11 @@
 
 This fully unit-tested library allows you to encode your data on the Arduino site and decode it on the [TTN](https://staging.thethingsnetwork.org/) side. It provides both a C-based encoder and a JavaScript-based decoder.
 
+Since version 2.2.0 there is also an encoder for the TTN side.
+
 ## In short
 
+## Encoding on Arduino, decoding in TTN
 Arduino side:
 ```cpp
 #include "LoraMessage.h"
@@ -20,6 +23,15 @@ TTN side:
 ```javascript
 // include src/decoder.js
 var json = decode(bytes, [unixtime, latLng], ['time', 'coords']);
+// json == {time: unixtime, coords: [latitude, longitude]}
+```
+
+## Encoding in TTN
+TTN side:
+```javascript
+// include src/encoder.js
+var bytes = encode([timestamp, [latitude, longitude]], [unixtime, latLng]);
+// bytes is of type Buffer
 ```
 
 ## Usage
