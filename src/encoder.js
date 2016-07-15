@@ -76,7 +76,7 @@ var encode = function(values, mask) {
     throw new Error('Mask must be an array');
   }
   if (values.length > mask.length) {
-    throw new Error('Mask length is ' + mask.length + 'whereas input is ' + values.length);
+    throw new Error('Mask length is ' + mask.length + ' whereas input is ' + values.length);
   }
 
   return Buffer.concat(values
