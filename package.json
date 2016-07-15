@@ -7,8 +7,8 @@
     "test": "test"
   },
   "repository": {
-     "type": "git",
-     "url": "https://github.com/thesolarnomad/lora-serialization"
+    "type": "git",
+    "url": "https://github.com/thesolarnomad/lora-serialization"
   },
   "scripts": {
     "test": "mocha"
