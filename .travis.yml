@@ -1,10 +1,15 @@
 language: node_js
 node_js:
 - stable
+install:
+  - export GOPATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace:$GOPATH"
+  - export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$PATH"
+  - go get -v github.com/robertkrimen/otto/otto # Download otto JS interpreter
+  - npm install
+  - cd test && make clean all
 script:
   - npm test
-  - cd test && make clean all test
-  - go get -v github.com/robertkrimen/otto/otto # Download otto JS interpreter
+  - cd test && make test
   - otto src/decoder.js # Test with otto (used by TTN)
 notifications:
   email: false
