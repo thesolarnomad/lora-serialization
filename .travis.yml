@@ -8,6 +8,7 @@ install:
   - npm install
   - pushd test && make clean all && popd
 script:
+  - npm run lint
   - npm test
   - pushd test && make test && popd
   - otto src/decoder.js # Test with otto (used by TTN)

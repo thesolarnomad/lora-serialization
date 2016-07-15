@@ -11,6 +11,7 @@
     "url": "https://github.com/thesolarnomad/lora-serialization"
   },
   "scripts": {
+    "lint": "eslint .",
     "test": "mocha"
   },
   "keywords": [
@@ -27,6 +28,7 @@
   "license": "MIT",
   "devDependencies": {
     "chai": "^3.5.0",
+    "eslint": "^3.0.1",
     "mocha": "^2.5.3"
   }
 }
