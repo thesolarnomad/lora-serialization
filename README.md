@@ -98,7 +98,7 @@ encoder.writeTemperature(-123.45);
 and then in the TTN frontend, use the following method:
 
 ```javascript
-temp(bytes.slice(x, x + 2)) // -123.45
+temperature(bytes.slice(x, x + 2)) // -123.45
 ```
 
 ### Humidity (2 bytes)
