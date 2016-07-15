@@ -1,11 +1,10 @@
 language: node_js
 node_js:
 - stable
-install:
-  - go get -v github.com/robertkrimen/otto/otto
 script:
   - npm test
   - cd test && make clean all test
+  - go get -v github.com/robertkrimen/otto/otto # Download otto JS interpreter
   - otto src/decoder.js # Test with otto (used by TTN)
 notifications:
   email: false
