@@ -1,0 +1,17 @@
+{
+  "extends": "../.eslintrc.js",
+  "rules": {
+    "no-unused-vars": 0
+  },
+  "globals": {
+    "encode": false,
+    "decode": false,
+    "LoraMessage": false,
+    "unixtime": false,
+    "latLng": false,
+    "uint16": false,
+    "uint8": false,
+    "temperature": false,
+    "humidity": false,
+  }
+}

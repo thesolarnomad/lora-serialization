@@ -12,6 +12,7 @@
   },
   "scripts": {
     "lint": "eslint .",
+    "tdd": "mocha --watch",
     "test": "mocha"
   },
   "keywords": [
