@@ -19,7 +19,7 @@ script:
   - otto src/decoder.js # Run through otto (used by TTN)
   - otto src/encoder.js # Run through otto (used by TTN)
 after_success:
-  - './node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls'
+  - yarn run coveralls
   - yarn run semantic-release
 branches:
   except:

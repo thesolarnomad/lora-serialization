@@ -12,6 +12,7 @@
   },
   "scripts": {
     "coverage": "nyc report --reporter=lcov",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint .",
     "test": "nyc ava",
     "test:c": "./.ci/run_c_tests.sh",
