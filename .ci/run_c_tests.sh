@@ -11,7 +11,7 @@ lcov \
   --directory . > /dev/null
 lcov \
   --output-file ../coverage/C.info \
-  --extract coverage.info "**/src/*" > /dev/null
+  --extract ../coverage/C.info "**/src/*" > /dev/null
 lcov --list ../coverage/C.info
 mkdir -p ../coverage/C
 genhtml -o ../coverage/C/lcov-report ../coverage/C.info > /dev/null
