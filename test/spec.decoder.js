@@ -1,9 +1,7 @@
 import test from 'ava';
-
-const path = require('path');
-const chai = require('chai');
-const decoder = require(path.join(__dirname, '..', 'src', 'decoder.js'));
-const base = require('./base.js');
+import chai from 'chai';
+import { decoder } from '../src';
+import base from './base';
 
 const expect = chai.expect;
 chai.should();

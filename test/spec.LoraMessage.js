@@ -1,10 +1,7 @@
 import test from 'ava';
-
-const path = require('path');
-const chai = require('chai');
-const encoder = require(path.join(__dirname, '..', 'src', 'encoder.js'));
-const base = require('./base.js');
-const LoraMessage = require(path.join(__dirname, '..', 'src', 'LoraMessage.js'));
+import chai from 'chai';
+import { encoder, LoraMessage } from '../src';
+import base from './base';
 
 chai.should();
 

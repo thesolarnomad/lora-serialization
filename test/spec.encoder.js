@@ -1,9 +1,7 @@
 import test from 'ava';
-
-const path = require('path');
-const chai = require('chai');
-const encoder = require(path.join(__dirname, '..', 'src', 'encoder.js'));
-const base = require('./base.js');
+import chai from 'chai';
+import { encoder } from '../src';
+import base from './base';
 
 const expect = chai.expect;
 chai.should();
@@ -43,7 +41,7 @@ test('Encoder: latLng: should be possible to decode a coordinate', t => {
   encoder
     .latLng.apply(encoder, base.latLng)
     .should.be.deep.equal(base.latLngBytes);
-    t.pass();
+  t.pass();
 });
 
 test('Encoder: uint8: should yell at you if the uint is omitted', t => {
