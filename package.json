@@ -33,6 +33,7 @@
   "devDependencies": {
     "ava": "^0.18.2",
     "chai": "^3.5.0",
+    "coveralls": "^2.11.16",
     "cz-conventional-changelog": "^2.0.0",
     "eslint": "^3.0.1",
     "nyc": "^10.1.2",
@@ -47,8 +48,5 @@
     "files": [
       "test/spec.*.js"
     ]
-  },
-  "dependencies": {
-    "coveralls": "^2.11.16"
   }
 }
