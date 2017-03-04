@@ -12,7 +12,7 @@
   },
   "scripts": {
     "coverage": "nyc report --reporter=lcov",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "coveralls": "lcov-result-merger 'coverage/*.info' | coveralls",
     "lint": "eslint .",
     "test": "nyc ava",
     "test:c": "./.ci/run_c_tests.sh",
@@ -36,6 +36,7 @@
     "coveralls": "^2.11.16",
     "cz-conventional-changelog": "^2.0.0",
     "eslint": "^3.0.1",
+    "lcov-result-merger": "^1.2.0",
     "nyc": "^10.1.2",
     "semantic-release": "^6.3.2"
   },

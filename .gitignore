@@ -1,7 +1,6 @@
 test/main.dSYM
 test/main*
 !test/main.cpp
-test/coverage.info
 node_modules
 *.gch
 npm-debug.log
