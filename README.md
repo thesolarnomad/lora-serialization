@@ -292,8 +292,9 @@ You can use: `64 A6 FA FD 6A 24 04 09 1D 4B 7A 57` for testing, and it will resu
 
 ## Development
 
-* Install the dependencies via `npm install`
-* Run the unit tests (C) via `npm run test:c`
-* Run the unit tests (JavaScript) via `npm test`
+* Install the dependencies via `yarn`
+* Run the unit tests (C) via `yarn run test:c`
+* Run the unit tests (JavaScript) via `yarn test`
+* Check the coverage (JavaScript) via `yarn coverage` (see `coverage/lcov-report`)
 
 The CI will kick off once you create a pull request automatically.
