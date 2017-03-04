@@ -14,7 +14,7 @@
     "lint": "eslint .",
     "tdd": "mocha --watch",
     "test": "mocha",
-    "test:c": "pushd test > /dev/null && make test && popd > /dev/null"
+    "test:c": "./.ci/run_c_tests.sh"
   },
   "keywords": [
     "lora",
