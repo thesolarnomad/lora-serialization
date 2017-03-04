@@ -12,7 +12,7 @@ describe('Decoder', () => {
       expect(() => decoder.unixtime()).to.throw(/undefined/);
     });
     it('should yell at you if the buffer size is incorrect', () => {
-      expect(() => decoder.unixtime(new Buffer(2))).to.throw(/must have/);
+      expect(() => decoder.unixtime(new Buffer([1, 2]))).to.throw(/must have/);
     });
     it('should be possible to decode a unixtime', () => {
       decoder
@@ -26,7 +26,7 @@ describe('Decoder', () => {
       expect(() => decoder.latLng()).to.throw(/undefined/);
     });
     it('should yell at you if the buffer size is incorrect', () => {
-      expect(() => decoder.latLng(new Buffer(9))).to.throw(/must have/);
+      expect(() => decoder.latLng(new Buffer([1, 2, 3, 4, 5, 6, 7, 8, 9]))).to.throw(/must have/);
     });
     it('should be possible to decode a coordinate', () => {
       decoder
@@ -40,7 +40,7 @@ describe('Decoder', () => {
       expect(() => decoder.uint16()).to.throw(/undefined/);
     });
     it('should yell at you if the buffer size is incorrect', () => {
-      expect(() => decoder.uint16(new Buffer(1))).to.throw(/must have/);
+      expect(() => decoder.uint16(new Buffer([1]))).to.throw(/must have/);
     });
     it('should be possible to decode an int', () => {
       decoder
@@ -54,7 +54,7 @@ describe('Decoder', () => {
       expect(() => decoder.uint8()).to.throw(/undefined/);
     });
     it('should yell at you if the buffer size is incorrect', () => {
-      expect(() => decoder.uint8(new Buffer(2))).to.throw(/must have/);
+      expect(() => decoder.uint8(new Buffer([1, 2]))).to.throw(/must have/);
     });
     it('should be possible to decode an int', () => {
       decoder
@@ -68,7 +68,7 @@ describe('Decoder', () => {
       expect(() => decoder.temperature()).to.throw(/undefined/);
     });
     it('should yell at you if the buffer size is incorrect', () => {
-      expect(() => decoder.temperature(new Buffer(1))).to.throw(/must have/);
+      expect(() => decoder.temperature(new Buffer([1]))).to.throw(/must have/);
     });
     it('should be possible to decode a temperature', () => {
       decoder
@@ -88,7 +88,7 @@ describe('Decoder', () => {
       expect(() => decoder.humidity()).to.throw(/undefined/);
     });
     it('should yell at you if the buffer size is incorrect', () => {
-      expect(() => decoder.humidity(new Buffer(1))).to.throw(/must have/);
+      expect(() => decoder.humidity(new Buffer([1]))).to.throw(/must have/);
     });
     it('should be possible to decode a humidity', () => {
       decoder

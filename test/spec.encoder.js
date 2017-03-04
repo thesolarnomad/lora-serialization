@@ -34,7 +34,7 @@ describe('Encoder', () => {
     });
     it('should be possible to decode a coordinate', () => {
       encoder
-        .latLng(base.latLng[0], base.latLng[1])
+        .latLng.apply(encoder, base.latLng)
         .should.be.deep.equal(base.latLngBytes);
     });
   });

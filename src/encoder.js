@@ -70,10 +70,10 @@ humidity.BYTES = 2;
 
 var encode = function(values, mask) {
   if (!Array.isArray(values)) {
-    throw new Error('Values must be an array');
+    throw new TypeError('Values must be an array');
   }
   if (!Array.isArray(mask)) {
-    throw new Error('Mask must be an array');
+    throw new TypeError('Mask must be an array');
   }
   if (values.length > mask.length) {
     throw new Error('Mask length is ' + mask.length + ' whereas input is ' + values.length);
