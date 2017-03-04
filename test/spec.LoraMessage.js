@@ -16,13 +16,15 @@ describe('LoraMessage', () => {
   });
 
   it('should be possible to chain message parts', () => {
-    new LoraMessage(encoder)
-      .addLatLng(base.latLng[0], base.latLng[1])
+    const loraMessage = new LoraMessage(encoder);
+    loraMessage
+      .addLatLng.apply(loraMessage, base.latLng)
       .addUnixtime(base.unixtime)
       .addUint16(base.uint16)
       .addTemperature(base.temp)
       .addUint8(base.uint8)
       .addHumidity(base.humidity)
+      .addBitmap.apply(loraMessage, base.bitmapArgs)
       .getBytes()
       .should.be.deep.equal(
         Buffer.concat([
@@ -31,7 +33,8 @@ describe('LoraMessage', () => {
           base.uint16Bytes,
           base.tempBytes,
           base.uint8Bytes,
-          base.humidityBytes
+          base.humidityBytes,
+          base.bitmapBytes,
         ])
     );
   });

@@ -42,6 +42,11 @@
     return this;
   };
 
+  LoraMessage.prototype.addBitmap = function(a, b, c, d, e, f, g, h) {
+    this.addTuple([a, b, c, d, e, f, g, h], 'bitmap');
+    return this;
+  };
+
   LoraMessage.prototype.getBytes = function() {
     var buffer = new Buffer(this.getLength());
     var offset = 0;

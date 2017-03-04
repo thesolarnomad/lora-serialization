@@ -97,6 +97,20 @@ describe('Decoder', () => {
     });
   });
 
+  describe('bitmap', () => {
+    it('should yell at you if the buffer is omitted', () => {
+      expect(() => decoder.bitmap()).to.throw(/undefined/);
+    });
+    it('should yell at you if the buffer size is incorrect', () => {
+      expect(() => decoder.bitmap(new Buffer([1, 2]))).to.throw(/must have/);
+    });
+    it('should be possible to decode a bitmap', () => {
+      decoder
+        .bitmap(base.bitmapBytes)
+        .should.be.deep.equal(base.bitmap);
+    });
+  });
+
   describe('decode', () => {
     it('should be able to compose decoder functions', () => {
       decoder
@@ -107,14 +121,16 @@ describe('Decoder', () => {
             base.uint16Bytes,
             base.tempBytes,
             base.uint8Bytes,
-            base.humidityBytes
+            base.humidityBytes,
+            base.bitmapBytes,
           ]), [
             decoder.latLng,
             decoder.unixtime,
             decoder.uint16,
             decoder.temperature,
             decoder.uint8,
-            decoder.humidity
+            decoder.humidity,
+            decoder.bitmap,
           ]
         )
         .should.be.deep.equal({
@@ -123,7 +139,8 @@ describe('Decoder', () => {
           2: base.uint16,
           3: base.temp,
           4: base.uint8,
-          5: base.humidity
+          5: base.humidity,
+          6: base.bitmap,
         });
     });
 

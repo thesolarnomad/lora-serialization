@@ -35,7 +35,43 @@ var bytes = encode([timestamp, [latitude, longitude]], [unixtime, latLng]);
 // bytes is of type Buffer
 ```
 
-## Usage
+
+#### With the convenience class
+
+```javascript
+// include src/encoder.js
+// include src/LoraMessage.js
+var bytes = new LoraMessage(encoder)
+    .addUnixtime(1467632413)
+    .addLatLng(-33.905052, 151.26641)
+    .addBitmap(true, true, false, true)
+    .getBytes();
+// bytes = <Buffer 1d 4b 7a 57 64 a6 fa fd 6a 24 04 09 d0>
+```
+
+and then decoding as usual:
+
+```js
+var result = decoder.decode(
+    bytes,
+    [decoder.unixtime, decoder.latLng, decoder.bitmap],
+    ['time', 'coords', 'heaters']
+);
+// result =
+// { time: 1467632413,
+//  coords: [ -33.905052, 151.26641 ],
+//  heaters:
+//   { a: true,
+//     b: true,
+//     c: false,
+//     d: true,
+//     e: false,
+//     f: false,
+//     g: false,
+//     h: false } }
+```
+
+## General Usage
 
 ### Unix time (4 bytes)
 Serializes/deserializes a unix time (seconds)
@@ -141,6 +177,23 @@ and then in the TTN frontend, use the following method:
 humidity(bytes.slice(x, x + 2)) // 99.99
 ```
 
+### Bitmap (1 byte)
+Serializes/deserializes a bitmap containing between 0 and 8 different flags.
+
+```cpp
+#include "LoraEncoder.h"
+
+byte buffer[1];
+LoraEncoder encoder(buffer);
+encoder.writeBitmap(true, false, false, false, false, false, false, false);
+// buffer == {0x80}
+```
+and then in the TTN frontend, use the following method:
+
+```javascript
+bitmap(bytes.slice(x, x + 1)) // { a: true, b: false, c: false, d: false, e: false, f: false, g: false, h: false }
+```
+
 ## Composition
 
 ### On the Arduino side
@@ -157,13 +210,15 @@ encoder.writeUint8(10);
 encoder.writeUint16(23453);
 encoder.writeTemperature(80.12);
 encoder.writeHumidity(99.99);
+encoder.writeBitmap(true, false, false, false, false, false, false, false);
 /* buffer == {
     0x1d, 0x4b, 0x7a, 0x57, // Unixtime
     0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09, // latitude,longitude
     0x0A, // Uint8
     0x9d, 0x5b, // Uint16
     0x4c, 0x1f, // temperature
-    0x0f, 0x27 // humidity
+    0x0f, 0x27, // humidity
+    0x80 // bitmap
 }
 */
 ```
@@ -181,7 +236,8 @@ message
     .addUint8(10)
     .addUint16(23453)
     .addTemperature(80.12)
-    .addHumidity(99.99);
+    .addHumidity(99.99)
+    .addBitmap(false, false, false, false, false, false, true, false);
 
 send(message.getBytes(), message.getLength());
 /*
@@ -192,9 +248,10 @@ getBytes() == {
     0x9d, 0x5b, // Uint16
     0x4c, 0x1f, // temperature
     0x0f, 0x27, // humidity
+    0xfd // Bitmap
 }
 and
-getLength() == 19
+getLength() == 20
 */
 ```
 

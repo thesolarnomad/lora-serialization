@@ -66,6 +66,20 @@ var humidity = function(bytes) {
 };
 humidity.BYTES = 2;
 
+var bitmap = function(byte) {
+  if (byte.length !== bitmap.BYTES) {
+    throw new Error('Bitmap must have exactly 1 byte');
+  }
+  var i = bytesToInt(byte);
+  var bm = Number(i).toString(2).split('').map(Number).map(Boolean);
+  return ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+    .reduce(function(obj, pos, index) {
+      obj[pos] = bm[index];
+      return obj;
+    }, {});
+};
+bitmap.BYTES = 1;
+
 var decode = function(bytes, mask, names) {
 
   var maskLength = mask.reduce(function(prev, cur) {
@@ -96,6 +110,7 @@ if (typeof module === 'object' && typeof module.exports !== 'undefined') {
     temperature: temperature,
     humidity: humidity,
     latLng: latLng,
+    bitmap: bitmap,
     decode: decode
   };
 }
