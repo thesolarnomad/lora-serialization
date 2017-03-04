@@ -6,10 +6,11 @@ Since version 2.2.0 there is also an encoder for the TTN side.
 
 ## In short
 
-## Encoding on Arduino, decoding in TTN
+### Encoding on Arduino, decoding in TTN
 Arduino side:
 ```cpp
 #include "LoraMessage.h"
+
 LoraMessage message;
 
 message
@@ -26,7 +27,7 @@ var json = decode(bytes, [unixtime, latLng], ['time', 'coords']);
 // json == {time: unixtime, coords: [latitude, longitude]}
 ```
 
-## Encoding in TTN
+### Encoding in TTN
 TTN side:
 ```javascript
 // include src/encoder.js
@@ -40,6 +41,8 @@ var bytes = encode([timestamp, [latitude, longitude]], [unixtime, latLng]);
 Serializes/deserializes a unix time (seconds)
 
 ```cpp
+#include "LoraEncoder.h"
+
 byte buffer[4];
 LoraEncoder encoder(buffer);
 encoder.writeUnixtime(1467632413);
@@ -55,6 +58,8 @@ unixtime(bytes.slice(x, x + 4)) // 1467632413
 Serializes/deserializes coordinates (latitude/longitude) with a precision of 6 decimals.
 
 ```cpp
+#include "LoraEncoder.h"
+
 byte buffer[8];
 LoraEncoder encoder(buffer);
 encoder.writeLatLng(-33.905052, 151.26641);
@@ -70,6 +75,8 @@ latLng(bytes.slice(x, x + 8)) // [-33.905052, 151.26641]
 Serializes/deserializes an unsigned 8bit integer.
 
 ```cpp
+#include "LoraEncoder.h"
+
 byte buffer[1];
 LoraEncoder encoder(buffer);
 uint8_t i = 10;
@@ -86,6 +93,8 @@ uint8(bytes.slice(x, x + 1)) // 10
 Serializes/deserializes an unsigned 16bit integer.
 
 ```cpp
+#include "LoraEncoder.h"
+
 byte buffer[2];
 LoraEncoder encoder(buffer);
 uint16_t i = 23453;
@@ -102,6 +111,8 @@ uint16(bytes.slice(x, x + 2)) // 23453
 Serializes/deserializes a temperature reading between -327.68 and +327.67 (inclusive) with a precision of 2 decimals.
 
 ```cpp
+#include "LoraEncoder.h"
+
 byte buffer[2];
 LoraEncoder encoder(buffer);
 encoder.writeTemperature(-123.45);
@@ -117,6 +128,8 @@ temperature(bytes.slice(x, x + 2)) // -123.45
 Serializes/deserializes a humidity reading between 0 and 100 (inclusive) with a precision of 2 decimals.
 
 ```cpp
+#include "LoraEncoder.h"
+
 byte buffer[2];
 LoraEncoder encoder(buffer);
 encoder.writeHumidity(99.99);
@@ -133,6 +146,8 @@ humidity(bytes.slice(x, x + 2)) // 99.99
 ### On the Arduino side
 The decoder allows you to write more than one value to a byte array:
 ```cpp
+#include "LoraEncoder.h"
+
 byte buffer[19];
 LoraEncoder encoder(buffer);
 
@@ -156,6 +171,8 @@ encoder.writeHumidity(99.99);
 #### Convenience class `LoraMessage`
 There is a convenience class that represents a LoraMessage that you can add readings to:
 ```cpp
+#include "LoraMessage.h"
+
 LoraMessage message;
 
 message
