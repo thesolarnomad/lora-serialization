@@ -1,0 +1,6 @@
+/.*
+/library.properties
+/example
+/test
+/src/*.*
+!/src/*.js

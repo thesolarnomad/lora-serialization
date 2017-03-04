@@ -1,8 +1,8 @@
 {
   "name": "lora-serialization",
-  "version": "2.3.0",
+  "version": "0.0.0-development",
   "description": "LoraWAN serialization/deserialization library for The Things Network",
-  "main": "src/decoder.js",
+  "main": "src/index.js",
   "directories": {
     "test": "test"
   },
@@ -14,7 +14,8 @@
     "lint": "eslint .",
     "tdd": "mocha --watch",
     "test": "mocha",
-    "test:c": "./.ci/run_c_tests.sh"
+    "test:c": "./.ci/run_c_tests.sh",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "keywords": [
     "lora",
@@ -30,7 +31,14 @@
   "license": "MIT",
   "devDependencies": {
     "chai": "^3.5.0",
+    "cz-conventional-changelog": "^2.0.0",
     "eslint": "^3.0.1",
-    "mocha": "^2.5.3"
+    "mocha": "^2.5.3",
+    "semantic-release": "^6.3.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
