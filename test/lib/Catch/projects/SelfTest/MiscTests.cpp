@@ -204,100 +204,6 @@ TEST_CASE( "atomic if", "[failing][0]")
         REQUIRE(x == 0);
 }
 
-inline const char* testStringForMatching()
-{
-    return "this string contains 'abc' as a substring";
-}
-inline const char* testStringForMatching2()
-{
-    return "some completely different text that contains one common word";
-}
-
-using namespace Catch::Matchers;
-
-TEST_CASE("String matchers", "[matchers]" )
-{
-    REQUIRE_THAT( testStringForMatching(), Contains( "string" ) );
-    CHECK_THAT( testStringForMatching(), Contains( "abc" ) );
-
-    CHECK_THAT( testStringForMatching(), StartsWith( "this" ) );
-    CHECK_THAT( testStringForMatching(), EndsWith( "substring" ) );
-}
-
-TEST_CASE("Contains string matcher", "[.][failing][matchers]")
-{
-    CHECK_THAT( testStringForMatching(), Contains( "not there" ) );
-}
-
-TEST_CASE("StartsWith string matcher", "[.][failing][matchers]")
-{
-    CHECK_THAT( testStringForMatching(), StartsWith( "string" ) );
-}
-
-TEST_CASE("EndsWith string matcher", "[.][failing][matchers]")
-{
-    CHECK_THAT( testStringForMatching(), EndsWith( "this" ) );
-}
-
-TEST_CASE("Equals string matcher", "[.][failing][matchers]")
-{
-    CHECK_THAT( testStringForMatching(), Equals( "something else" ) );
-}
-TEST_CASE("Equals string matcher, with NULL", "[matchers]")
-{
-    REQUIRE_THAT("", Equals(CATCH_NULL));
-}
-TEST_CASE("AllOf matcher", "[matchers]")
-{
-    CHECK_THAT( testStringForMatching(), AllOf( Catch::Contains( "string" ), Catch::Contains( "abc" ) ) );
-}
-TEST_CASE("AnyOf matcher", "[matchers]")
-{
-    CHECK_THAT( testStringForMatching(), AnyOf( Catch::Contains( "string" ), Catch::Contains( "not there" ) ) );
-    CHECK_THAT( testStringForMatching(), AnyOf( Catch::Contains( "not there" ), Catch::Contains( "string" ) ) );
-}
-
-TEST_CASE("Equals", "[matchers]")
-{
-    CHECK_THAT( testStringForMatching(), Equals( "this string contains 'abc' as a substring" ) );
-}
-
-TEST_CASE("Matchers can be (AllOf) composed with the && operator", "[matchers][operators][operator&&]")
-{
-    CHECK_THAT( testStringForMatching(),
-           Contains( "string" ) &&
-           Contains( "abc" ) &&
-           Contains( "substring" ) &&
-           Contains( "contains" ) );
-}
-
-TEST_CASE("Matchers can be (AnyOf) composed with the || operator", "[matchers][operators][operator||]")
-{
-    CHECK_THAT( testStringForMatching(), Contains( "string" ) || Contains( "different" ) || Contains( "random" ) );
-    CHECK_THAT( testStringForMatching2(), Contains( "string" ) || Contains( "different" ) || Contains( "random" ) );
-}
-
-TEST_CASE("Matchers can be composed with both && and ||", "[matchers][operators][operator||][operator&&]")
-{
-    CHECK_THAT( testStringForMatching(), ( Contains( "string" ) || Contains( "different" ) ) && Contains( "substring" ) );
-}
-
-TEST_CASE("Matchers can be composed with both && and || - failing", "[matchers][operators][operator||][operator&&][.failing]")
-{
-    CHECK_THAT( testStringForMatching(), ( Contains( "string" ) || Contains( "different" ) ) && Contains( "random" ) );
-}
-
-TEST_CASE("Matchers can be negated (Not) with the ! operator", "[matchers][operators][not]")
-{
-    CHECK_THAT( testStringForMatching(), !Contains( "different" ) );
-}
-
-TEST_CASE("Matchers can be negated (Not) with the ! operator - failing", "[matchers][operators][not][.failing]")
-{
-    CHECK_THAT( testStringForMatching(), !Contains( "substring" ) );
-}
-
-
 inline unsigned int Factorial( unsigned int number )
 {
 //  return number <= 1 ? number : Factorial(number-1)*number;
@@ -406,27 +312,27 @@ TEST_CASE( "Tabs and newlines show in output", "[.][whitespace][failing]" ) {
 
 
 TEST_CASE( "toString on const wchar_t const pointer returns the string contents", "[toString]" ) {
-	const wchar_t * const s = L"wide load";
-	std::string result = Catch::toString( s );
-	CHECK( result == "\"wide load\"" );
+        const wchar_t * const s = L"wide load";
+        std::string result = Catch::toString( s );
+        CHECK( result == "\"wide load\"" );
 }
 
 TEST_CASE( "toString on const wchar_t pointer returns the string contents", "[toString]" ) {
-	const wchar_t * s = L"wide load";
-	std::string result = Catch::toString( s );
-	CHECK( result == "\"wide load\"" );
+        const wchar_t * s = L"wide load";
+        std::string result = Catch::toString( s );
+        CHECK( result == "\"wide load\"" );
 }
 
 TEST_CASE( "toString on wchar_t const pointer returns the string contents", "[toString]" ) {
-	wchar_t * const s = const_cast<wchar_t* const>( L"wide load" );
-	std::string result = Catch::toString( s );
-	CHECK( result == "\"wide load\"" );
+        wchar_t * const s = const_cast<wchar_t* const>( L"wide load" );
+        std::string result = Catch::toString( s );
+        CHECK( result == "\"wide load\"" );
 }
 
 TEST_CASE( "toString on wchar_t returns the string contents", "[toString]" ) {
-	wchar_t * s = const_cast<wchar_t*>( L"wide load" );
-	std::string result = Catch::toString( s );
-	CHECK( result == "\"wide load\"" );
+        wchar_t * s = const_cast<wchar_t*>( L"wide load" );
+        std::string result = Catch::toString( s );
+        CHECK( result == "\"wide load\"" );
 }
 
 inline std::string encode( std::string const& str, Catch::XmlEncode::ForWhat forWhat = Catch::XmlEncode::ForTextNodes ) {
@@ -458,15 +364,15 @@ TEST_CASE( "XmlEncode" ) {
         REQUIRE( encode( stringWithQuotes, Catch::XmlEncode::ForAttributes ) == "don't &quot;quote&quot; me on that" );
     }
     SECTION( "string with control char (1)" ) {
-        REQUIRE( encode( "[\x01]" ) == "[&#x1]" );
+        REQUIRE( encode( "[\x01]" ) == "[\\x01]" );
     }
     SECTION( "string with control char (x7F)" ) {
-        REQUIRE( encode( "[\x7F]" ) == "[&#x7F]" );
+        REQUIRE( encode( "[\x7F]" ) == "[\\x7F]" );
     }
 }
 
 #ifdef CATCH_CONFIG_CPP11_LONG_LONG
-TEST_CASE( "long long" ) {
+TEST_CASE( "long long", "[c++11][.]" ) {
     long long l = std::numeric_limits<long long>::max();
 
     REQUIRE( l == std::numeric_limits<long long>::max() );
@@ -482,4 +388,8 @@ TEST_CASE( "long long" ) {
 TEST_CASE( "This test 'should' fail but doesn't", "[.][failing][!shouldfail]" )
 {
     SUCCEED( "oops!" );
+}
+
+TEST_CASE( "# A test name that starts with a #" ) {
+    SUCCEED( "yay" );
 }

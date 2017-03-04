@@ -36,7 +36,8 @@
 #include "internal/catch_generators.hpp"
 #include "internal/catch_interfaces_exception.h"
 #include "internal/catch_approx.hpp"
-#include "internal/catch_matchers.hpp"
+#include "internal/catch_matchers_string.h"
+#include "internal/catch_matchers_vector.h"
 #include "internal/catch_compiler_capabilities.h"
 #include "internal/catch_interfaces_tag_alias_registry.h"
 
@@ -50,6 +51,29 @@
 #endif
 
 #ifdef CATCH_IMPL
+
+// !TBD: Move the leak detector code into a separate header
+#ifdef CATCH_CONFIG_WINDOWS_CRTDBG
+#include <crtdbg.h>
+class LeakDetector {
+public:
+	LeakDetector() {
+		int flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
+		flag |= _CRTDBG_LEAK_CHECK_DF;
+		flag |= _CRTDBG_ALLOC_MEM_DF;
+		_CrtSetDbgFlag(flag);
+		_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE | _CRTDBG_MODE_DEBUG);
+		_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDERR);
+		// Change this to leaking allocation's number to break there
+		_CrtSetBreakAlloc(-1);
+	}
+};
+#else
+class LeakDetector {};
+#endif
+
+LeakDetector leakDetector;
+
 #include "internal/catch_impl.hpp"
 #endif
 
@@ -81,19 +105,19 @@
 #define CATCH_CHECKED_ELSE( expr ) INTERNAL_CATCH_ELSE( expr, Catch::ResultDisposition::ContinueOnFailure, "CATCH_CHECKED_ELSE" )
 #define CATCH_CHECK_NOFAIL( expr ) INTERNAL_CATCH_TEST( expr, Catch::ResultDisposition::ContinueOnFailure | Catch::ResultDisposition::SuppressFail, "CATCH_CHECK_NOFAIL" )
 
-#define CATCH_CHECK_THROWS( expr )  INTERNAL_CATCH_THROWS( expr, Catch::ResultDisposition::ContinueOnFailure, "CATCH_CHECK_THROWS" )
+#define CATCH_CHECK_THROWS( expr )  INTERNAL_CATCH_THROWS( expr, Catch::ResultDisposition::ContinueOnFailure, "", "CATCH_CHECK_THROWS" )
 #define CATCH_CHECK_THROWS_AS( expr, exceptionType ) INTERNAL_CATCH_THROWS_AS( expr, exceptionType, Catch::ResultDisposition::ContinueOnFailure, "CATCH_CHECK_THROWS_AS" )
 #define CATCH_CHECK_THROWS_WITH( expr, matcher ) INTERNAL_CATCH_THROWS( expr, Catch::ResultDisposition::ContinueOnFailure, matcher, "CATCH_CHECK_THROWS_WITH" )
 #define CATCH_CHECK_NOTHROW( expr ) INTERNAL_CATCH_NO_THROW( expr, Catch::ResultDisposition::ContinueOnFailure, "CATCH_CHECK_NOTHROW" )
 
-#define CHECK_THAT( arg, matcher ) INTERNAL_CHECK_THAT( arg, matcher, Catch::ResultDisposition::ContinueOnFailure, "CATCH_CHECK_THAT" )
+#define CATCH_CHECK_THAT( arg, matcher ) INTERNAL_CHECK_THAT( arg, matcher, Catch::ResultDisposition::ContinueOnFailure, "CATCH_CHECK_THAT" )
 #define CATCH_REQUIRE_THAT( arg, matcher ) INTERNAL_CHECK_THAT( arg, matcher, Catch::ResultDisposition::Normal, "CATCH_REQUIRE_THAT" )
 
 #define CATCH_INFO( msg ) INTERNAL_CATCH_INFO( msg, "CATCH_INFO" )
 #define CATCH_WARN( msg ) INTERNAL_CATCH_MSG( Catch::ResultWas::Warning, Catch::ResultDisposition::ContinueOnFailure, "CATCH_WARN", msg )
 #define CATCH_SCOPED_INFO( msg ) INTERNAL_CATCH_INFO( msg, "CATCH_INFO" )
-#define CATCH_CAPTURE( msg ) INTERNAL_CATCH_INFO( #msg " := " << msg, "CATCH_CAPTURE" )
-#define CATCH_SCOPED_CAPTURE( msg ) INTERNAL_CATCH_INFO( #msg " := " << msg, "CATCH_CAPTURE" )
+#define CATCH_CAPTURE( msg ) INTERNAL_CATCH_INFO( #msg " := " << Catch::toString(msg), "CATCH_CAPTURE" )
+#define CATCH_SCOPED_CAPTURE( msg ) INTERNAL_CATCH_INFO( #msg " := " << Catch::toString(msg), "CATCH_CAPTURE" )
 
 #ifdef CATCH_CONFIG_VARIADIC_MACROS
     #define CATCH_TEST_CASE( ... ) INTERNAL_CATCH_TESTCASE( __VA_ARGS__ )
@@ -161,8 +185,8 @@
 #define INFO( msg ) INTERNAL_CATCH_INFO( msg, "INFO" )
 #define WARN( msg ) INTERNAL_CATCH_MSG( Catch::ResultWas::Warning, Catch::ResultDisposition::ContinueOnFailure, "WARN", msg )
 #define SCOPED_INFO( msg ) INTERNAL_CATCH_INFO( msg, "INFO" )
-#define CAPTURE( msg ) INTERNAL_CATCH_INFO( #msg " := " << msg, "CAPTURE" )
-#define SCOPED_CAPTURE( msg ) INTERNAL_CATCH_INFO( #msg " := " << msg, "CAPTURE" )
+#define CAPTURE( msg ) INTERNAL_CATCH_INFO( #msg " := " << Catch::toString(msg), "CAPTURE" )
+#define SCOPED_CAPTURE( msg ) INTERNAL_CATCH_INFO( #msg " := " << Catch::toString(msg), "CAPTURE" )
 
 #ifdef CATCH_CONFIG_VARIADIC_MACROS
     #define TEST_CASE( ... ) INTERNAL_CATCH_TESTCASE( __VA_ARGS__ )
