@@ -13,7 +13,7 @@ before_install:
   - go get -v github.com/robertkrimen/otto/otto # Download otto JS interpreter
 script:
   - yarn run lint
-  - yarn test
+  - FORCE_COLOR=true yarn test
   - yarn run test:c
   - otto src/decoder.js # Run through otto (used by TTN)
   - otto src/encoder.js # Run through otto (used by TTN)
