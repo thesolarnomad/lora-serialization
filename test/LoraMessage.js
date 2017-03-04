@@ -5,7 +5,7 @@ import base from './base';
 
 chai.should();
 
-test('LoraMessage should be possible to construct a simple message', t => {
+test('should be possible to construct a simple message', t => {
   const m = new LoraMessage(encoder);
   m.addUnixtime(base.unixtime);
   m.getLength().should.equal(4);
@@ -13,7 +13,7 @@ test('LoraMessage should be possible to construct a simple message', t => {
   t.pass();
 });
 
-test('LoraMessage should be possible to chain message parts', t => {
+test('should be possible to chain message parts', t => {
   const loraMessage = new LoraMessage(encoder);
   loraMessage
     .addLatLng.apply(loraMessage, base.latLng)
