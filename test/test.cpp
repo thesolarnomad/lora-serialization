@@ -157,6 +157,16 @@ TEST_CASE( "LoRa Message", "[LoRa]" ) {
         compare_array(expected, message.getBytes(), 0, sizeof(expected));
     }
 
+    SECTION( "should provide a convenient way to add a bitmap" ) {
+        byte expected[] = {0x80};
+        LoraMessage message;
+
+        message.addBitmap(true, false, false, false, false, false, false, false);
+
+        REQUIRE(message.getLength() == sizeof(expected));
+        compare_array(expected, message.getBytes(), 0, sizeof(expected));
+    }
+
     SECTION( "should allow chaining" ) {
         byte expected[] = {
             0x1d, 0x4b, 0x7a, 0x57, // Unixtime
@@ -165,7 +175,8 @@ TEST_CASE( "LoRa Message", "[LoRa]" ) {
             0x9d, 0x5b, // Uint16
             0x4c, 0x1f, // temperature
             0x0f, 0x27, // humidity
-            0x1e, 0x4b, 0x7a, 0x57, // Unixtime 2
+            0x1e, 0x4b, 0x7a, 0x57, // Unixtime,
+            0xfd // Bitmap
         };
         LoraMessage message;
 
@@ -176,7 +187,8 @@ TEST_CASE( "LoRa Message", "[LoRa]" ) {
             .addUint16(23453)
             .addTemperature(80.12)
             .addHumidity(99.99)
-            .addUnixtime(1467632414);
+            .addUnixtime(1467632414)
+            .addBitmap(true, true, true, true, true, true, false, true);
 
         REQUIRE(message.getLength() == sizeof(expected));
         compare_array(expected, message.getBytes(), 0, sizeof(expected));

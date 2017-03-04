@@ -10,7 +10,7 @@ install:
 script:
   - npm run lint
   - npm test
-  - pushd test && make test && popd
+  - npm run test:c
   - otto src/decoder.js # Run through otto (used by TTN)
   - otto src/encoder.js # Run through otto (used by TTN)
 notifications:

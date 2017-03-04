@@ -82,3 +82,17 @@ void LoraEncoder::writeTemperature(float temperature) {
     _intToBytes(_buffer, t, 2);
     _buffer += 2;
 }
+
+void LoraEncoder::writeBitmap(bool a, bool b, bool c, bool d, bool e, bool f, bool g, bool h) {
+    uint8_t bitmap = 0;
+    // LSB first
+    bitmap |= (a & 1) << 7;
+    bitmap |= (b & 1) << 6;
+    bitmap |= (c & 1) << 5;
+    bitmap |= (d & 1) << 4;
+    bitmap |= (e & 1) << 3;
+    bitmap |= (f & 1) << 2;
+    bitmap |= (g & 1) << 1;
+    bitmap |= (h & 1) << 0;
+    writeUint8(bitmap);
+}

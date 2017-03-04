@@ -68,12 +68,29 @@ var humidity = function(i) {
 };
 humidity.BYTES = 2;
 
+var bitmap = function(a, b, c, d, e, f, g, h) { // eslint-disable-line no-unused-vars
+  var base = [];
+  for(var i = 0; i < 8; i++) {
+    var bit = arguments[i];
+    if (typeof bit === 'undefined') {
+      base[i] = false;
+    } else if (typeof bit !== 'boolean') {
+      throw new TypeError('Arguments must be of type boolean');
+    } else {
+      base[i] = bit;
+    }
+  }
+  var bm = parseInt(base.map(Number).join(''), 2);
+  return intToBytes(bm, bitmap.BYTES);
+};
+bitmap.BYTES = 1;
+
 var encode = function(values, mask) {
   if (!Array.isArray(values)) {
-    throw new Error('Values must be an array');
+    throw new TypeError('Values must be an array');
   }
   if (!Array.isArray(mask)) {
-    throw new Error('Mask must be an array');
+    throw new TypeError('Mask must be an array');
   }
   if (values.length > mask.length) {
     throw new Error('Mask length is ' + mask.length + ' whereas input is ' + values.length);
@@ -93,6 +110,7 @@ if (typeof module === 'object' && typeof module.exports !== 'undefined') {
     temperature: temperature,
     humidity: humidity,
     latLng: latLng,
+    bitmap: bitmap,
     encode: encode
   };
 }

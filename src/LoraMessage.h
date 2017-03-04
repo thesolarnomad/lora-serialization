@@ -20,6 +20,7 @@ class LoraMessage {
         LoraMessage& addTemperature(float temperature);
         LoraMessage& addUint8(uint8_t i);
         LoraMessage& addHumidity(float humidity);
+        LoraMessage& addBitmap(bool a, bool b, bool c, bool d, bool e, bool f, bool g, bool h);
         byte* getBytes();
         int getLength();
     private:

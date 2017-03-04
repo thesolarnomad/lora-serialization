@@ -34,7 +34,7 @@ describe('Encoder', () => {
     });
     it('should be possible to decode a coordinate', () => {
       encoder
-        .latLng(base.latLng[0], base.latLng[1])
+        .latLng.apply(encoder, base.latLng)
         .should.be.deep.equal(base.latLngBytes);
     });
   });
@@ -105,6 +105,24 @@ describe('Encoder', () => {
     });
   });
 
+  describe('bitmap', () => {
+    it('should yell at you if the bitmap is incorrect', () => {
+      expect(() => encoder.bitmap(1)).to.throw(TypeError);
+      expect(() => encoder.bitmap('a')).to.throw(TypeError);
+    });
+    it('should be possible to encode a bitmap', () => {
+      encoder
+        .bitmap.apply(encoder, base.bitmapArgs)
+        .should.be.deep.equal(base.bitmapBytes);
+    });
+    it('should be possible to encode a short bitmap', () => {
+      encoder
+        .bitmap(true)
+        .should.be.deep.equal(new Buffer([0x80]));
+    });
+  });
+
+
   describe('encode', () => {
     it('should yell at you if input is incorrect', () => {
       expect(() => encoder.encode()).to.throw(/values/i);
@@ -124,7 +142,8 @@ describe('Encoder', () => {
           base.uint16,
           base.temp,
           base.uint8,
-          base.humidity
+          base.humidity,
+          base.bitmapArgs,
         ],
         [
           encoder.latLng,
@@ -132,7 +151,8 @@ describe('Encoder', () => {
           encoder.uint16,
           encoder.temperature,
           encoder.uint8,
-          encoder.humidity
+          encoder.humidity,
+          encoder.bitmap,
         ]).should.be.deep.equal(
           Buffer.concat([
             base.latLngBytes,
@@ -140,7 +160,8 @@ describe('Encoder', () => {
             base.uint16Bytes,
             base.tempBytes,
             base.uint8Bytes,
-            base.humidityBytes
+            base.humidityBytes,
+            base.bitmapBytes,
           ])
       );
     });

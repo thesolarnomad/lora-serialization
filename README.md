@@ -6,10 +6,11 @@ Since version 2.2.0 there is also an encoder for the TTN side.
 
 ## In short
 
-## Encoding on Arduino, decoding in TTN
+### Encoding on Arduino, decoding in TTN
 Arduino side:
 ```cpp
 #include "LoraMessage.h"
+
 LoraMessage message;
 
 message
@@ -26,7 +27,7 @@ var json = decode(bytes, [unixtime, latLng], ['time', 'coords']);
 // json == {time: unixtime, coords: [latitude, longitude]}
 ```
 
-## Encoding in TTN
+### Encoding in TTN
 TTN side:
 ```javascript
 // include src/encoder.js
@@ -34,12 +35,50 @@ var bytes = encode([timestamp, [latitude, longitude]], [unixtime, latLng]);
 // bytes is of type Buffer
 ```
 
-## Usage
+
+#### With the convenience class
+
+```javascript
+// include src/encoder.js
+// include src/LoraMessage.js
+var bytes = new LoraMessage(encoder)
+    .addUnixtime(1467632413)
+    .addLatLng(-33.905052, 151.26641)
+    .addBitmap(true, true, false, true)
+    .getBytes();
+// bytes = <Buffer 1d 4b 7a 57 64 a6 fa fd 6a 24 04 09 d0>
+```
+
+and then decoding as usual:
+
+```js
+var result = decoder.decode(
+    bytes,
+    [decoder.unixtime, decoder.latLng, decoder.bitmap],
+    ['time', 'coords', 'heaters']
+);
+// result =
+// { time: 1467632413,
+//  coords: [ -33.905052, 151.26641 ],
+//  heaters:
+//   { a: true,
+//     b: true,
+//     c: false,
+//     d: true,
+//     e: false,
+//     f: false,
+//     g: false,
+//     h: false } }
+```
+
+## General Usage
 
 ### Unix time (4 bytes)
 Serializes/deserializes a unix time (seconds)
 
 ```cpp
+#include "LoraEncoder.h"
+
 byte buffer[4];
 LoraEncoder encoder(buffer);
 encoder.writeUnixtime(1467632413);
@@ -55,6 +94,8 @@ unixtime(bytes.slice(x, x + 4)) // 1467632413
 Serializes/deserializes coordinates (latitude/longitude) with a precision of 6 decimals.
 
 ```cpp
+#include "LoraEncoder.h"
+
 byte buffer[8];
 LoraEncoder encoder(buffer);
 encoder.writeLatLng(-33.905052, 151.26641);
@@ -70,6 +111,8 @@ latLng(bytes.slice(x, x + 8)) // [-33.905052, 151.26641]
 Serializes/deserializes an unsigned 8bit integer.
 
 ```cpp
+#include "LoraEncoder.h"
+
 byte buffer[1];
 LoraEncoder encoder(buffer);
 uint8_t i = 10;
@@ -86,6 +129,8 @@ uint8(bytes.slice(x, x + 1)) // 10
 Serializes/deserializes an unsigned 16bit integer.
 
 ```cpp
+#include "LoraEncoder.h"
+
 byte buffer[2];
 LoraEncoder encoder(buffer);
 uint16_t i = 23453;
@@ -102,6 +147,8 @@ uint16(bytes.slice(x, x + 2)) // 23453
 Serializes/deserializes a temperature reading between -327.68 and +327.67 (inclusive) with a precision of 2 decimals.
 
 ```cpp
+#include "LoraEncoder.h"
+
 byte buffer[2];
 LoraEncoder encoder(buffer);
 encoder.writeTemperature(-123.45);
@@ -117,6 +164,8 @@ temperature(bytes.slice(x, x + 2)) // -123.45
 Serializes/deserializes a humidity reading between 0 and 100 (inclusive) with a precision of 2 decimals.
 
 ```cpp
+#include "LoraEncoder.h"
+
 byte buffer[2];
 LoraEncoder encoder(buffer);
 encoder.writeHumidity(99.99);
@@ -128,11 +177,30 @@ and then in the TTN frontend, use the following method:
 humidity(bytes.slice(x, x + 2)) // 99.99
 ```
 
+### Bitmap (1 byte)
+Serializes/deserializes a bitmap containing between 0 and 8 different flags.
+
+```cpp
+#include "LoraEncoder.h"
+
+byte buffer[1];
+LoraEncoder encoder(buffer);
+encoder.writeBitmap(true, false, false, false, false, false, false, false);
+// buffer == {0x80}
+```
+and then in the TTN frontend, use the following method:
+
+```javascript
+bitmap(bytes.slice(x, x + 1)) // { a: true, b: false, c: false, d: false, e: false, f: false, g: false, h: false }
+```
+
 ## Composition
 
 ### On the Arduino side
 The decoder allows you to write more than one value to a byte array:
 ```cpp
+#include "LoraEncoder.h"
+
 byte buffer[19];
 LoraEncoder encoder(buffer);
 
@@ -142,13 +210,15 @@ encoder.writeUint8(10);
 encoder.writeUint16(23453);
 encoder.writeTemperature(80.12);
 encoder.writeHumidity(99.99);
+encoder.writeBitmap(true, false, false, false, false, false, false, false);
 /* buffer == {
     0x1d, 0x4b, 0x7a, 0x57, // Unixtime
     0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09, // latitude,longitude
     0x0A, // Uint8
     0x9d, 0x5b, // Uint16
     0x4c, 0x1f, // temperature
-    0x0f, 0x27 // humidity
+    0x0f, 0x27, // humidity
+    0x80 // bitmap
 }
 */
 ```
@@ -156,6 +226,8 @@ encoder.writeHumidity(99.99);
 #### Convenience class `LoraMessage`
 There is a convenience class that represents a LoraMessage that you can add readings to:
 ```cpp
+#include "LoraMessage.h"
+
 LoraMessage message;
 
 message
@@ -164,7 +236,8 @@ message
     .addUint8(10)
     .addUint16(23453)
     .addTemperature(80.12)
-    .addHumidity(99.99);
+    .addHumidity(99.99)
+    .addBitmap(false, false, false, false, false, false, true, false);
 
 send(message.getBytes(), message.getLength());
 /*
@@ -175,9 +248,10 @@ getBytes() == {
     0x9d, 0x5b, // Uint16
     0x4c, 0x1f, // temperature
     0x0f, 0x27, // humidity
+    0xfd // Bitmap
 }
 and
-getLength() == 19
+getLength() == 20
 */
 ```
 
@@ -214,7 +288,8 @@ You can use: `64 A6 FA FD 6A 24 04 09 1D 4B 7A 57` for testing, and it will resu
 
 ## Development
 
-* Run the unit tests (C) via `cd test && make clean all test`
+* Install the dependencies via `npm install`
+* Run the unit tests (C) via `npm run test:c`
 * Run the unit tests (JavaScript) via `npm test`
 
 The CI will kick off once you create a pull request automatically.

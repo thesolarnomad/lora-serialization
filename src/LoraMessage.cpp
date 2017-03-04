@@ -58,6 +58,11 @@ LoraMessage& LoraMessage::addHumidity(float humidity) {
     return *this;
 }
 
+LoraMessage& LoraMessage::addBitmap(bool a, bool b, bool c, bool d, bool e, bool f, bool g, bool h) {
+    _reallocBuffer(1).writeBitmap(a, b, c, d, e, f, g, h);
+    return *this;
+}
+
 int LoraMessage::getLength() {
     return _currentSize;
 }

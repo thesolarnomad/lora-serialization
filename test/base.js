@@ -12,5 +12,17 @@ module.exports = {
   humidityBytes: new Buffer([0x0f, 0x27]),
   humidity: 99.99,
   latLngBytes: new Buffer([0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09]),
-  latLng: [-33.905052, 151.26641]
+  latLng: [-33.905052, 151.26641],
+  bitmapArgs: [true, true, true, true, true, true, false, true],
+  bitmap: {
+    a: true,
+    b: true,
+    c: true,
+    d: true,
+    e: true,
+    f: true,
+    g: false,
+    h: true
+  },
+  bitmapBytes: new Buffer([253]),
 };
