@@ -13,7 +13,8 @@
   "scripts": {
     "lint": "eslint .",
     "tdd": "mocha --watch",
-    "test": "mocha"
+    "test": "mocha",
+    "test:c": "pushd test > /dev/null && make test && popd > /dev/null"
   },
   "keywords": [
     "lora",
