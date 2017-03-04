@@ -4,3 +4,5 @@ test/main.h.*
 node_modules
 *.gch
 npm-debug.log
+/coverage
+/.nyc_output

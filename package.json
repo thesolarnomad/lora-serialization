@@ -11,9 +11,9 @@
     "url": "https://github.com/thesolarnomad/lora-serialization"
   },
   "scripts": {
+    "coverage": "nyc report --reporter=lcov",
     "lint": "eslint .",
-    "tdd": "mocha --watch",
-    "test": "mocha",
+    "test": "nyc ava",
     "test:c": "./.ci/run_c_tests.sh",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
@@ -30,15 +30,24 @@
   "author": "Joscha Feth <joscha@feth.com>",
   "license": "MIT",
   "devDependencies": {
+    "ava": "^0.18.2",
     "chai": "^3.5.0",
     "cz-conventional-changelog": "^2.0.0",
     "eslint": "^3.0.1",
-    "mocha": "^2.5.3",
+    "nyc": "^10.1.2",
     "semantic-release": "^6.3.2"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "ava": {
+    "files": [
+      "test/spec.*.js"
+    ]
+  },
+  "dependencies": {
+    "coveralls": "^2.11.16"
   }
 }
