@@ -289,6 +289,11 @@ You can use: `64 A6 FA FD 6A 24 04 09 1D 4B 7A 57` for testing, and it will resu
   "time": 1467632413
 }
 ```
+##### Example decoder in the TTN console
+![TTN console decoder example](URL)
+
+##### Example converter in the TTN console
+![TTN console converter example](URL)
 
 ## Development
 
