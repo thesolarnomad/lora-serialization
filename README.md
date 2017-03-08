@@ -289,6 +289,13 @@ You can use: `64 A6 FA FD 6A 24 04 09 1D 4B 7A 57` for testing, and it will resu
   "time": 1467632413
 }
 ```
+##### Example decoder in the TTN console
+Set up your decoder in the console:
+![TTN console decoder example](https://cloud.githubusercontent.com/assets/188038/23703580/c136cc90-0454-11e7-9570-ae137136d7b5.png)
+
+##### Example converter in the TTN console
+The decode method already does most of the necessary transformations, so in most cases you can just pass the data through:
+![TTN console converter example](https://cloud.githubusercontent.com/assets/188038/23703587/c99021c0-0454-11e7-8670-9f77472a111d.png)
 
 ## Development
 
