@@ -39,8 +39,8 @@ var latLng = function(latitude, longitude) {
   }
 
   return Buffer.concat([
-    intToBytes(latitude * 1e6, latLng.BYTES / 2),
-    intToBytes(longitude * 1e6, latLng.BYTES / 2)
+    intToBytes(~~(latitude * 1e6), latLng.BYTES / 2),
+    intToBytes(~~(longitude * 1e6), latLng.BYTES / 2)
   ]);
 };
 latLng.BYTES = 8;
@@ -50,12 +50,22 @@ var temperature = function(i) {
   if (isNaN(i) || i < -327.68 || i > 327.67) {
     throw new Error('Temperature must be in range -327.68..327.67');
   }
-  var t = i * 1e2;
-  if(i < 0) {
-    t = ~t;
-    t = t + 1;
+  var t = ~~(Math.abs(i) * 1e2);
+  var b = ('0000000000000000' + Number(t >>> 0).toString(2)).slice(-16);
+  if (i < 0) {
+    var arr = b.split('').map(function(x) { return !Number(x); });
+    for (var o = arr.length - 1; o > 0; o--) {
+      arr[o] = !arr[o];
+      if (arr[o]) {
+        break;
+      }
+    }
+    b = arr.map(Number).join('');
   }
-  return intToBytes(t, temperature.BYTES);
+  return new Buffer([
+    parseInt(b.slice(-16, -8), 2),
+    parseInt(b.slice(-8), 2)
+  ]);
 };
 temperature.BYTES = 2;
 

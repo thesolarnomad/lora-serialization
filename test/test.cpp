@@ -48,7 +48,7 @@ TEST_CASE( "LoRa Serialization", "[LoRa]" ) {
     SECTION( "tempToBytes should transform a temperature to a byte array" ) {
         byte x[2];
         LoraEncoder encoder(x);
-        byte expected[] = {0x4c, 0x1f};
+        byte expected[] = {0x1f, 0x4c};
 
         encoder.writeTemperature(80.12);
         compare_array(expected, x, 0, sizeof(expected));
@@ -57,7 +57,7 @@ TEST_CASE( "LoRa Serialization", "[LoRa]" ) {
     SECTION( "tempToBytes should transform a negative temperature to a byte array" ) {
         byte x[2];
         LoraEncoder encoder(x);
-        byte expected[] = {0x39, 0x30};
+        byte expected[] = {0xcf, 0xc7};
 
         encoder.writeTemperature(-123.45);
         compare_array(expected, x, 0, sizeof(expected));
@@ -80,7 +80,7 @@ TEST_CASE( "LoRa Serialization", "[LoRa]" ) {
             0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09, // coordinate
             0x0A, // Uint8
             0x9d, 0x5b, // Uint16
-            0x4c, 0x1f, // temperature
+            0x1f, 0x4c, // temperature
             0x0f, 0x27 // humidity
         };
 
@@ -138,7 +138,7 @@ TEST_CASE( "LoRa Message", "[LoRa]" ) {
     }
 
     SECTION( "should provide a convenient way to add a temperature" ) {
-        byte expected[] = {0x4c, 0x1f};
+        byte expected[] = {0x1f, 0x4c};
         LoraMessage message;
 
         message.addTemperature(80.12);
@@ -173,7 +173,7 @@ TEST_CASE( "LoRa Message", "[LoRa]" ) {
             0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09, // coordinate
             0x0A, // Uint8
             0x9d, 0x5b, // Uint16
-            0x4c, 0x1f, // temperature
+            0x1f, 0x4c, // temperature
             0x0f, 0x27, // humidity
             0x1e, 0x4b, 0x7a, 0x57, // Unixtime,
             0xfd // Bitmap
