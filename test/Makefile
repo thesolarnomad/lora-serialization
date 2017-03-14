@@ -15,4 +15,4 @@ test:
 	./main
 
 clean:
-	$(RM) $(TARGET)
+	$(RM) $(TARGET) $(TARGET).gcda $(TARGET).gcno

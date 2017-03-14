@@ -75,11 +75,12 @@ void LoraEncoder::writeHumidity(float humidity) {
 */
 void LoraEncoder::writeTemperature(float temperature) {
     int16_t t = (int16_t) (temperature * 100);
-    if(temperature < 0) {
-        t = ~t;
+    if (temperature < 0) {
+        t = ~-t;
         t = t + 1;
     }
-    _intToBytes(_buffer, t, 2);
+    _buffer[0] = (byte) ((t >> 8) & 0xFF);
+    _buffer[1] = (byte) t & 0xFF;
     _buffer += 2;
 }
 

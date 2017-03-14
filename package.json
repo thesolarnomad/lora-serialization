@@ -15,6 +15,7 @@
     "coveralls": "lcov-result-merger 'coverage/*.info' | coveralls",
     "lint": "eslint .",
     "test": "nyc ava",
+    "test:watch": "ava --watch",
     "test:c": "./.ci/run_c_tests.sh",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
@@ -32,7 +33,6 @@
   "license": "MIT",
   "devDependencies": {
     "ava": "^0.18.2",
-    "chai": "^3.5.0",
     "coveralls": "^2.11.16",
     "cz-conventional-changelog": "^2.0.0",
     "eslint": "^3.0.1",

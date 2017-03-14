@@ -1,24 +1,20 @@
 import test from 'ava';
-import chai from 'chai';
 import { encoder } from '../../src';
 import base from '../base';
 
-const expect = chai.expect;
-chai.should();
-
 test('should yell at you if input is incorrect', t => {
-  expect(() => encoder.encode()).to.throw(/values/i);
-  expect(() => encoder.encode([])).to.throw(/mask/i);
+  t.throws(() => encoder.encode(), /values/i);
+  t.throws(() => encoder.encode([]), /mask/i);
   t.pass();
 });
 
 test('should yell at you if input is longer than mask', t => {
-  expect(() => encoder.encode([1,2,3], [encoder.latLng])).to.throw(/Mask/i);
+  t.throws(() => encoder.encode([1,2,3], [encoder.latLng]), /Mask/i);
   t.pass();
 });
 
 test('should be able to compose encoder functions', t => {
-  encoder
+  t.deepEqual(encoder
     .encode(
     [
       base.latLng,
@@ -37,7 +33,7 @@ test('should be able to compose encoder functions', t => {
       encoder.uint8,
       encoder.humidity,
       encoder.bitmap,
-    ]).should.be.deep.equal(
+    ]),
       Buffer.concat([
         base.latLngBytes,
         base.unixtimeBytes,

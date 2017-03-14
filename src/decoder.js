@@ -46,12 +46,23 @@ var temperature = function(bytes) {
   if (bytes.length !== temperature.BYTES) {
     throw new Error('Temperature must have exactly 2 bytes');
   }
-
-  var t = bytesToInt(bytes);
-  if ((bytes[1] & 0x60)) {
-    t = ~t + 1;
+  var isNegative = bytes[0] & 0x80;
+  var b = ('00000000' + Number(bytes[0]).toString(2)).slice(-8)
+        + ('00000000' + Number(bytes[1]).toString(2)).slice(-8);
+  if (isNegative) {
+    var arr = b.split('').map(function(x) { return !Number(x); });
+    for (var i = arr.length - 1; i > 0; i--) {
+      arr[i] = !arr[i];
+      if (arr[i]) {
+        break;
+      }
+    }
+    b = arr.map(Number).join('');
   }
-
+  var t = parseInt(b, 2);
+  if (isNegative) {
+    t = -t;
+  }
   return t / 1e2;
 };
 temperature.BYTES = 2;
