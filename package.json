@@ -1,6 +1,6 @@
 {
   "name": "lora-serialization",
-  "version": "0.0.0-development",
+  "version": "3.0.0",
   "description": "LoraWAN serialization/deserialization library for The Things Network",
   "main": "src/index.js",
   "directories": {
