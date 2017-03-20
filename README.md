@@ -156,7 +156,7 @@ Serializes/deserializes a temperature reading between -327.68 and +327.67 (inclu
 byte buffer[2];
 LoraEncoder encoder(buffer);
 encoder.writeTemperature(-123.45);
-// buffer == {0x39, 0x30}
+// buffer == {0xcf, 0xc7}
 ```
 and then in the TTN frontend, use the following method:
 
@@ -220,7 +220,7 @@ encoder.writeBitmap(true, false, false, false, false, false, false, false);
     0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09, // latitude,longitude
     0x0A, // Uint8
     0x9d, 0x5b, // Uint16
-    0x4c, 0x1f, // temperature
+    0x1f, 0x4c, // temperature
     0x0f, 0x27, // humidity
     0x80 // bitmap
 }
@@ -250,7 +250,7 @@ getBytes() == {
     0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09, // latitude,longitude
     0x0A, // Uint8
     0x9d, 0x5b, // Uint16
-    0x4c, 0x1f, // temperature
+    0x1f, 0x4c, // temperature
     0x0f, 0x27, // humidity
     0xfd // Bitmap
 }
