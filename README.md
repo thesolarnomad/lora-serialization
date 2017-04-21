@@ -4,7 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/thesolarnomad/lora-serialization/badge.svg?branch=master)](https://coveralls.io/github/thesolarnomad/lora-serialization?branch=master)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-This fully unit-tested library allows you to encode your data on the Arduino site and decode it on the [TTN](https://console.thethingsnetwork.org/) side. It provides both a C-based encoder and a JavaScript-based decoder.
+This fully unit-tested library allows you to encode your data on the Arduino side and decode it on the [TTN](https://console.thethingsnetwork.org/) side. It provides both a C-based encoder and a JavaScript-based decoder.
 
 Since version 2.2.0 there is also an encoder for the TTN side.
 
