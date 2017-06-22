@@ -25,4 +25,15 @@ module.exports = {
     h: true
   },
   bitmapBytes: new Buffer([253]),
+  bitmap2: {
+    a: false,
+    b: true,
+    c: false,
+    d: false,
+    e: false,
+    f: false,
+    g: false,
+    h: false
+  },
+  bitmap2Bytes: new Buffer([64]),
 };

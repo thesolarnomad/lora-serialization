@@ -14,3 +14,7 @@ test('should be possible to decode a bitmap', t => {
   t.deepEqual(decoder.bitmap(base.bitmapBytes), base.bitmap);
   t.pass();
 });
+test('should be possible to decode a bitmap with leading false', t => {
+  t.deepEqual(decoder.bitmap(base.bitmap2Bytes), base.bitmap2);
+  t.pass();
+});

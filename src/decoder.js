@@ -82,7 +82,7 @@ var bitmap = function(byte) {
     throw new Error('Bitmap must have exactly 1 byte');
   }
   var i = bytesToInt(byte);
-  var bm = Number(i).toString(2).split('').map(Number).map(Boolean);
+  var bm = ('00000000' + Number(i).toString(2)).substr(-8).split('').map(Number).map(Boolean);
   return ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
     .reduce(function(obj, pos, index) {
       obj[pos] = bm[index];
