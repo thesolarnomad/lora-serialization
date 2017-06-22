@@ -1,4 +1,5 @@
 language: node_js
+sudo: required
 cache:
   yarn: true
   directories:
@@ -11,7 +12,7 @@ before_install:
   - export GOPATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace"
   - export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$PATH"
   - go get -v github.com/robertkrimen/otto/otto # Download otto JS interpreter
-  - sudo apt-get install lcov
+  - sudo apt-get install -y lcov
 script:
   - yarn lint
   - FORCE_COLOR=true yarn test
