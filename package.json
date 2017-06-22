@@ -1,6 +1,6 @@
 {
   "name": "lora-serialization",
-  "version": "3.0.0",
+  "version": "0.0.0-development",
   "description": "LoraWAN serialization/deserialization library for The Things Network",
   "main": "src/index.js",
   "directories": {
@@ -38,7 +38,7 @@
     "eslint": "^3.0.1",
     "lcov-result-merger": "^1.2.0",
     "nyc": "^10.1.2",
-    "semantic-release": "^6.3.2"
+    "semantic-release": "^6.3.6"
   },
   "config": {
     "commitizen": {
