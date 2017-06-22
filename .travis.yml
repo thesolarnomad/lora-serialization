@@ -7,11 +7,12 @@ notifications:
   email: false
 node_js:
   - stable
-before_install:
+install:
   - export GOPATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace:$GOPATH"
   - export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$PATH"
   - go get -v github.com/robertkrimen/otto/otto # Download otto JS interpreter
   - sudo apt-get install lcov
+  - yarn install
 script:
   - yarn lint
   - FORCE_COLOR=true yarn test
