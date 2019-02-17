@@ -5,9 +5,10 @@
 #include "LoraMessage.h"
 #include "LoraEncoder.h"
 
-LoraMessage::LoraMessage() {
+LoraMessage::LoraMessage(bool opcodes) {
     _currentSize = 0;
     _buffer = (byte*) malloc(_currentSize);
+    _opcodes = opcodes;
 }
 
 LoraMessage::~LoraMessage() {
@@ -15,6 +16,7 @@ LoraMessage::~LoraMessage() {
 }
 
 LoraEncoder LoraMessage::_reallocBuffer(int delta) {
+    delta += _opcodes;
     void* temp = realloc(_buffer, (_currentSize + delta) * sizeof(byte));
     if (temp == NULL) {
         free(_buffer);
@@ -23,7 +25,7 @@ LoraEncoder LoraMessage::_reallocBuffer(int delta) {
     } else {
         _buffer = (byte*) temp;
     }
-    LoraEncoder encoder(_buffer + _currentSize);
+    LoraEncoder encoder(_buffer + _currentSize, _opcodes);
     _currentSize += delta;
     return encoder;
 }
