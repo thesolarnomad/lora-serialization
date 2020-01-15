@@ -1,17 +1,17 @@
 module.exports = {
-  unixtimeBytes: new Buffer([0x1d, 0x4b, 0x7a, 0x57]),
+  unixtimeBytes: [0x1d, 0x4b, 0x7a, 0x57],
   unixtime: 1467632413,
-  uint8Bytes: new Buffer([0xFF]),
+  uint8Bytes: [0xFF],
   uint8: 255,
-  uint16Bytes: new Buffer([0x9d, 0x5b]),
+  uint16Bytes: [0x9d, 0x5b],
   uint16: 23453,
-  tempBytes: new Buffer([0x1f, 0x4c]),
+  tempBytes: [0x1f, 0x4c],
   temp: 80.12,
-  negativeTempBytes: new Buffer([0xcf, 0xc7]),
+  negativeTempBytes: [0xcf, 0xc7],
   negativeTemp: -123.45,
-  humidityBytes: new Buffer([0x0f, 0x27]),
+  humidityBytes: [0x0f, 0x27],
   humidity: 99.99,
-  latLngBytes: new Buffer([0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09]),
+  latLngBytes: [0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09],
   latLng: [-33.905052, 151.26641],
   bitmapArgs: [true, true, true, true, true, true, false, true],
   bitmap: {
@@ -24,7 +24,7 @@ module.exports = {
     g: false,
     h: true
   },
-  bitmapBytes: new Buffer([253]),
+  bitmapBytes: [253],
   bitmap2: {
     a: false,
     b: true,
@@ -35,5 +35,5 @@ module.exports = {
     g: false,
     h: false
   },
-  bitmap2Bytes: new Buffer([64]),
+  bitmap2Bytes: [64],
 };

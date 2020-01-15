@@ -5,15 +5,15 @@ import base from '../base';
 test('should be able to compose decoder functions', t => {
   t.deepEqual(
     decoder.decode(
-      Buffer.concat([
+      [].concat(
         base.latLngBytes,
         base.unixtimeBytes,
         base.uint16Bytes,
         base.tempBytes,
         base.uint8Bytes,
         base.humidityBytes,
-        base.bitmapBytes,
-      ]), [
+        base.bitmapBytes
+      ), [
         decoder.latLng,
         decoder.unixtime,
         decoder.uint16,
@@ -37,7 +37,7 @@ test('should be able to compose decoder functions', t => {
 });
 
 test('should yell at you if mask is longer than input', t => {
-  t.throws(() => decoder.decode(new Buffer(7), [decoder.latLng]), /Mask/i);
+  t.throws(() => decoder.decode([1, 2, 3, 4, 5, 6, 7], [decoder.latLng]), /Mask/i);
   t.pass();
 });
 

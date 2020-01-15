@@ -14,6 +14,6 @@ test('should be possible to encode a bitmap', t => {
 });
 
 test('should be possible to encode a short bitmap', t => {
-  t.deepEqual(encoder.bitmap(true), new Buffer([0x80]));
+  t.deepEqual(encoder.bitmap(true), [0x80]);
   t.pass();
 });

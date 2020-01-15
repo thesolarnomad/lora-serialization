@@ -8,7 +8,7 @@ test('should yell at you if the buffer is omitted', t => {
 });
 
 test('should yell at you if the buffer size is incorrect', t => {
-  t.throws(() => decoder.latLng(new Buffer([1, 2, 3, 4, 5, 6, 7, 8, 9])), /must have/);
+  t.throws(() => decoder.latLng([1, 2, 3, 4, 5, 6, 7, 8, 9]), /must have/);
   t.pass();
 });
 
