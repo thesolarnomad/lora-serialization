@@ -8,7 +8,7 @@ test('should yell at you if the buffer is omitted', t => {
 });
 
 test('should yell at you if the buffer size is incorrect', t => {
-  t.throws(() => decoder.humidity(new Buffer([1])), /must have/);
+  t.throws(() => decoder.humidity([1]), /must have/);
   t.pass();
 });
 

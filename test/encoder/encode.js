@@ -34,15 +34,15 @@ test('should be able to compose encoder functions', t => {
       encoder.humidity,
       encoder.bitmap,
     ]),
-      Buffer.concat([
+      [].concat(
         base.latLngBytes,
         base.unixtimeBytes,
         base.uint16Bytes,
         base.tempBytes,
         base.uint8Bytes,
         base.humidityBytes,
-        base.bitmapBytes,
-      ])
+        base.bitmapBytes
+      )
   );
   t.pass();
 });

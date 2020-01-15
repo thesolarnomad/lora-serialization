@@ -7,7 +7,7 @@ test('should yell at you if the buffer is omitted', t => {
   t.pass();
 });
 test('should yell at you if the buffer size is incorrect', t => {
-  t.throws(() => decoder.bitmap(new Buffer([1, 2])), /must have/);
+  t.throws(() => decoder.bitmap([1, 2]), /must have/);
   t.pass();
 });
 test('should be possible to decode a bitmap', t => {

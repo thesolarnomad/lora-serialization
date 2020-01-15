@@ -23,15 +23,15 @@ test('should be possible to chain message parts', t => {
       .addBitmap.apply(loraMessage, base.bitmapArgs)
       .getBytes()
     ,
-    Buffer.concat([
+    [].concat(
       base.latLngBytes,
       base.unixtimeBytes,
       base.uint16Bytes,
       base.tempBytes,
       base.uint8Bytes,
       base.humidityBytes,
-      base.bitmapBytes,
-    ])
+      base.bitmapBytes
+    )
   );
   t.pass();
 });

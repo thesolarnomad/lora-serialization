@@ -1,7 +1,7 @@
 var intToBytes = function(i, byteSize) {
-  var buf = new Buffer(byteSize);
+  var buf = [];
   for (var x = 0; x < byteSize; x++) {
-    buf[x] = i >> (x * 8);
+    buf[x] = i >> (x * 8) & 0xFF;
   }
   return buf;
 };
@@ -38,15 +38,14 @@ var latLng = function(latitude, longitude) {
     throw new Error('Longitude must be between -180° and 180°');
   }
 
-  return Buffer.concat([
+  return [].concat(
     intToBytes(~~(latitude * 1e6), latLng.BYTES / 2),
     intToBytes(~~(longitude * 1e6), latLng.BYTES / 2)
-  ]);
+  );
 };
 latLng.BYTES = 8;
 
 var temperature = function(i) {
-
   if (isNaN(i) || i < -327.68 || i > 327.67) {
     throw new Error('Temperature must be in range -327.68..327.67');
   }
@@ -62,10 +61,10 @@ var temperature = function(i) {
     }
     b = arr.map(Number).join('');
   }
-  return new Buffer([
+  return [
     parseInt(b.slice(-16, -8), 2),
     parseInt(b.slice(-8), 2)
-  ]);
+  ];
 };
 temperature.BYTES = 2;
 
@@ -106,10 +105,10 @@ var encode = function(values, mask) {
     throw new Error('Mask length is ' + mask.length + ' whereas input is ' + values.length);
   }
 
-  return Buffer.concat(values
-    .map(function(args, i) {
-      return mask[i].apply(null, Array.isArray(args) ? args : [args]);
-    }));
+  return values
+    .reduce(function(acc, args, i) {
+      return acc.concat(mask[i].apply(null, Array.isArray(args) ? args : [args]));
+    }, []);
 };
 
 if (typeof module === 'object' && typeof module.exports !== 'undefined') {

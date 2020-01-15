@@ -48,14 +48,10 @@
   };
 
   LoraMessage.prototype.getBytes = function() {
-    var buffer = new Buffer(this.getLength());
-    var offset = 0;
-    this.dataTuples.forEach(function(tuple) {
+    return this.dataTuples.reduce(function(acc, tuple) {
       var current = tuple.fn.apply(null, tuple.data);
-      current.copy(buffer, offset);
-      offset += tuple.fn.BYTES;
-    });
-    return buffer;
+      return acc.concat(current);
+    }, []);
   };
 
   LoraMessage.prototype.getLength = function() {
