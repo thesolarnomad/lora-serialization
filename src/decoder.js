@@ -77,6 +77,23 @@ var humidity = function(bytes) {
 };
 humidity.BYTES = 2;
 
+// Based on https://stackoverflow.com/a/37471538 by Ilya Bursov
+// quoted by Arjan here https://www.thethingsnetwork.org/forum/t/decode-float-sent-by-lopy-as-node/8757
+function rawfloat(bytes) {
+  if (bytes.length !== rawfloat.BYTES) {
+    throw new Error('Float must have exactly 4 bytes');
+  }
+  // JavaScript bitwise operators yield a 32 bits integer, not a float.
+  // Assume LSB (least significant byte first).
+  var bits = bytes[3]<<24 | bytes[2]<<16 | bytes[1]<<8 | bytes[0];
+  var sign = (bits>>>31 === 0) ? 1.0 : -1.0;
+  var e = bits>>>23 & 0xff;
+  var m = (e === 0) ? (bits & 0x7fffff)<<1 : (bits & 0x7fffff) | 0x800000;
+  var f = sign * m * Math.pow(2, e - 150);
+  return f;
+}
+rawfloat.BYTES = 4;
+
 var bitmap = function(byte) {
   if (byte.length !== bitmap.BYTES) {
     throw new Error('Bitmap must have exactly 1 byte');
@@ -122,6 +139,7 @@ if (typeof module === 'object' && typeof module.exports !== 'undefined') {
     humidity: humidity,
     latLng: latLng,
     bitmap: bitmap,
+    rawfloat: rawfloat,
     decode: decode
   };
 }

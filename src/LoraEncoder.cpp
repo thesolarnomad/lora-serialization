@@ -69,6 +69,12 @@ void LoraEncoder::writeHumidity(float humidity) {
     _buffer += 2;
 }
 
+void LoraEncoder::writeRawFloat(float value) {
+  uint32_t asbytes=*(reinterpret_cast<uint32_t*>(&value));
+  _intToBytes(_buffer, asbytes, 4);
+  _buffer += 4;
+}
+
 /**
 * Uses a 16bit two's complement with two decimals, so the range is
 * -327.68 to +327.67 degrees
