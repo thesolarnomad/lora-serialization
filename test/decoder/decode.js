@@ -31,6 +31,7 @@ test('should be able to compose decoder functions', t => {
       2: base.uint16,
       3: base.temp,
       4: base.uint8,
+      5: base.humidity,
       5: base.rawFloat,
       6: base.bitmap,
     }
