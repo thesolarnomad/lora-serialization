@@ -32,8 +32,8 @@ test('should be able to compose decoder functions', t => {
       3: base.temp,
       4: base.uint8,
       5: base.humidity,
-      5: base.rawFloat,
-      6: base.bitmap,
+      6: base.rawFloat,
+      7: base.bitmap,
     }
   );
   t.pass();

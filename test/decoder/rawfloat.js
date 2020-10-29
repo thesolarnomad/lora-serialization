@@ -12,7 +12,7 @@ test('should yell at you if the buffer size is incorrect', t => {
   t.pass();
 });
 
-test('should be possible to decode a temperature', t => {
-  t.is(decoder.temperature(base.rawFloatBytes), base.rawFloat);
+test('should be possible to decode a float', t => {
+  t.is(decoder.rawfloat(base.rawFloatBytes), base.rawFloat);
   t.pass();
 });
