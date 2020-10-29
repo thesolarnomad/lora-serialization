@@ -181,6 +181,23 @@ and then in the TTN frontend, use the following method:
 humidity(bytes.slice(x, x + 2)) // 99.99
 ```
 
+### Full float (4 bytes)
+Serializes/deserializes a full 4-byte float.
+
+```cpp
+#include "LoraEncoder.h"
+
+byte buffer[4];
+LoraEncoder encoder(buffer);
+encoder.writeRawFloat(99.99);
+// buffer == {0xe1, 0xfa, 0xc7, 0x42}
+```
+and then in the TTN frontend, use the following method:
+
+```javascript
+rawfloat(bytes.slice(x, x + 4)) // 99.99
+```
+
 ### Bitmap (1 byte)
 Serializes/deserializes a bitmap containing between 0 and 8 different flags.
 
@@ -214,6 +231,7 @@ encoder.writeUint8(10);
 encoder.writeUint16(23453);
 encoder.writeTemperature(80.12);
 encoder.writeHumidity(99.99);
+encoder.writeRawFloat(99.99);
 encoder.writeBitmap(true, false, false, false, false, false, false, false);
 /* buffer == {
     0x1d, 0x4b, 0x7a, 0x57, // Unixtime
@@ -222,6 +240,7 @@ encoder.writeBitmap(true, false, false, false, false, false, false, false);
     0x9d, 0x5b, // Uint16
     0x1f, 0x4c, // temperature
     0x0f, 0x27, // humidity
+    0xe1, 0xfa, 0xc7, 0x42, // 4-byte float
     0x80 // bitmap
 }
 */
@@ -241,6 +260,7 @@ message
     .addUint16(23453)
     .addTemperature(80.12)
     .addHumidity(99.99)
+    .addRawFloat(99.99)
     .addBitmap(false, false, false, false, false, false, true, false);
 
 send(message.getBytes(), message.getLength());
@@ -252,10 +272,11 @@ getBytes() == {
     0x9d, 0x5b, // Uint16
     0x1f, 0x4c, // temperature
     0x0f, 0x27, // humidity
+    0xe1, 0xfa, 0xc7, 0x42, // 4-byte float
     0xfd // Bitmap
 }
 and
-getLength() == 20
+getLength() == 24
 */
 ```
 
