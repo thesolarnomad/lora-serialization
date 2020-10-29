@@ -13,6 +13,8 @@ module.exports = {
   humidity: 99.99,
   latLngBytes: [0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09],
   latLng: [-33.905052, 151.26641],
+  rawFloat: 99.99,
+  rawFloatBytes: [0xe1, 0xfa, 0xc7, 0x42],
   bitmapArgs: [true, true, true, true, true, true, false, true],
   bitmap: {
     a: true,
