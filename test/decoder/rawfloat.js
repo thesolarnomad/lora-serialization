@@ -13,6 +13,6 @@ test('should yell at you if the buffer size is incorrect', t => {
 });
 
 test('should be possible to decode a float', t => {
-  t.true(Math.abs(decoder.rawfloat(base.rawFloatBytes)-base.rawFloat)<Number.EPSILON);
+  t.true(Math.abs(decoder.rawfloat(base.rawFloatBytes)-base.rawFloat)<base.floatEpsilon);
   t.pass();
 });
