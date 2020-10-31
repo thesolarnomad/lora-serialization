@@ -33,6 +33,11 @@ LoraMessage& LoraMessage::addUnixtime(uint32_t unixtime) {
     return *this;
 }
 
+LoraMessage& LoraMessage::addRawFloat(float data) {
+    _reallocBuffer(4).writeRawFloat(data);
+    return *this;
+}
+
 LoraMessage& LoraMessage::addLatLng(double latitude, double longitude) {
     _reallocBuffer(8).writeLatLng(latitude, longitude);
     return *this;

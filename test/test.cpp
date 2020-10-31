@@ -72,6 +72,24 @@ TEST_CASE( "LoRa Serialization", "[LoRa]" ) {
         compare_array(expected, x, 0, sizeof(expected));
     }
 
+    SECTION( "floatToBytes should transform a float to a byte array" ) {
+        byte x[4];
+        LoraEncoder encoder(x);
+        byte expected[] = {0xea, 0x15, 0x9c, 0x42};        
+
+        encoder.writeRawFloat(78.0428);
+        compare_array(expected, x, 0, sizeof(expected));
+    }
+
+    SECTION( "floatToBytes should transform a zero  to zeroes" ) {
+        byte x[4];
+        LoraEncoder encoder(x);
+        byte expected[] = {0x00, 0x00, 0x00, 0x00};        
+
+        encoder.writeRawFloat(0.0);
+        compare_array(expected, x, 0, sizeof(expected));
+    }
+
     SECTION( "write multiple fields to one byte array" ) {
         byte x[19];
         LoraEncoder encoder(x);
@@ -81,7 +99,8 @@ TEST_CASE( "LoRa Serialization", "[LoRa]" ) {
             0x0A, // Uint8
             0x9d, 0x5b, // Uint16
             0x1f, 0x4c, // temperature
-            0x0f, 0x27 // humidity
+            0x0f, 0x27, // humidity
+            0xe1, 0xfa, 0xc7, 0x42 // raw float
         };
 
         encoder.writeUnixtime(1467632413);
@@ -90,6 +109,7 @@ TEST_CASE( "LoRa Serialization", "[LoRa]" ) {
         encoder.writeUint16(23453);
         encoder.writeTemperature(80.12);
         encoder.writeHumidity(99.99);
+        encoder.writeRawFloat(99.99);        
 
         compare_array(expected, x, 0, sizeof(expected));
     }
