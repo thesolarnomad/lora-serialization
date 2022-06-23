@@ -22,6 +22,10 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
+  
+  History:
+  20220309 MPr: added writeUint32()
+
 */
 
 #ifndef _LORA_ENCODER_H_
@@ -40,12 +44,13 @@ class LoraEncoder {
         void writeUnixtime(uint32_t unixtime);
         void writeLatLng(double latitude, double longitude);
         void writeUint16(uint16_t i);
+        // MPr: added
+        void writeUint32(uint32_t i);
         void writeTemperature(float temperature);
         void writeUint8(uint8_t i);
         void writeHumidity(float humidity);
         void writeBitmap(bool a, bool b, bool c, bool d, bool e, bool f, bool g, bool h);
         void writeRawFloat(float value);
-
     private:
         byte* _buffer;
         void _intToBytes(byte *buf, int32_t i, uint8_t byteSize);
