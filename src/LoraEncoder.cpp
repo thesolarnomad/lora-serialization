@@ -22,6 +22,10 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
+  
+  History:
+  20220309 MPr: added writeUint32()
+
 */
 
 #if ARDUINO >= 100
@@ -53,6 +57,12 @@ void LoraEncoder::writeLatLng(double latitude, double longitude) {
     _buffer += 8;
 }
 
+// MPr: added
+void LoraEncoder::writeUint32(uint32_t i) {
+    _intToBytes(_buffer, i, 4);
+    _buffer += 4;
+}
+
 void LoraEncoder::writeUint16(uint16_t i) {
     _intToBytes(_buffer, i, 2);
     _buffer += 2;
@@ -67,12 +77,6 @@ void LoraEncoder::writeHumidity(float humidity) {
     int16_t h = (int16_t) (humidity * 100);
     _intToBytes(_buffer, h, 2);
     _buffer += 2;
-}
-
-void LoraEncoder::writeRawFloat(float value) {
-  uint32_t asbytes=*(reinterpret_cast<uint32_t*>(&value));
-  _intToBytes(_buffer, asbytes, 4);
-  _buffer += 4;
 }
 
 /**
@@ -102,4 +106,10 @@ void LoraEncoder::writeBitmap(bool a, bool b, bool c, bool d, bool e, bool f, bo
     bitmap |= (g & 1) << 1;
     bitmap |= (h & 1) << 0;
     writeUint8(bitmap);
+}
+
+void LoraEncoder::writeRawFloat(float value) {
+  uint32_t asbytes=*(reinterpret_cast<uint32_t*>(&value));
+  _intToBytes(_buffer, asbytes, 4);
+  _buffer += 4;
 }
