@@ -16,7 +16,7 @@ unixtime.BYTES = 4;
 
 var uint8 = function(i) {
   if (isNaN(i) || i < 0 || i > 255) {
-    throw new Error('int be in range 0..255');
+    throw new Error('uint8 must be in range 0..255');
   }
   return intToBytes(i, uint8.BYTES);
 };
@@ -24,11 +24,19 @@ uint8.BYTES = 1;
 
 var uint16 = function(i) {
   if (isNaN(i) || i < 0 || i > 65535) {
-    throw new Error('int be in range 0..65535');
+    throw new Error('uint16 must be in range 0..65535');
   }
   return intToBytes(i, uint16.BYTES);
 };
 uint16.BYTES = 2;
+
+var uint32 = function(i) {
+  if (isNaN(i) || i < 0 || i > 4294967295) {
+    throw new Error('uint32 must be in range 0..4294967295');
+  }
+  return intToBytes(i, uint32.BYTES);
+};
+uint32.BYTES = 4;
 
 var latLng = function(latitude, longitude) {
   if (isNaN(latitude) || latitude < -90 || latitude > 90) {
@@ -116,6 +124,7 @@ if (typeof module === 'object' && typeof module.exports !== 'undefined') {
     unixtime: unixtime,
     uint8: uint8,
     uint16: uint16,
+    uint32: uint32,
     temperature: temperature,
     humidity: humidity,
     latLng: latLng,
