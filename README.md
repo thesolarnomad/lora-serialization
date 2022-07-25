@@ -147,6 +147,24 @@ and then in the TTN frontend, use the following method:
 uint16(bytes.slice(x, x + 2)) // 23453
 ```
 
+### Unsigned 32bit Integer (4 bytes)
+Serializes/deserializes an unsigned 32bit integer.
+
+```cpp
+#include "LoraEncoder.h"
+
+byte buffer[4];
+LoraEncoder encoder(buffer);
+uint32_t i = 2864434397;
+encoder.writeUint32(i);
+// buffer == {0xdd, 0xcc, 0xbb, 0xaa}
+```
+and then in the TTN frontend, use the following method:
+
+```javascript
+uint32(bytes.slice(x, x + 4)) // 2864434397
+```
+
 ### Temperature (2 bytes)
 Serializes/deserializes a temperature reading between -327.68 and +327.67 (inclusive) with a precision of 2 decimals.
 
@@ -229,6 +247,7 @@ encoder.writeUnixtime(1467632413);
 encoder.writeLatLng(-33.905052, 151.26641);
 encoder.writeUint8(10);
 encoder.writeUint16(23453);
+encoder.writeUint32(2864434397);
 encoder.writeTemperature(80.12);
 encoder.writeHumidity(99.99);
 encoder.writeRawFloat(99.99);
@@ -238,6 +257,7 @@ encoder.writeBitmap(true, false, false, false, false, false, false, false);
     0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09, // latitude,longitude
     0x0A, // Uint8
     0x9d, 0x5b, // Uint16
+    0xdd, 0xcc, 0xbb, 0xaa, // Uint32
     0x1f, 0x4c, // temperature
     0x0f, 0x27, // humidity
     0xe1, 0xfa, 0xc7, 0x42, // 4-byte float
@@ -258,6 +278,7 @@ message
     .addLatLng(-33.905052, 151.26641)
     .addUint8(10)
     .addUint16(23453)
+    .addUint32(2864434397)
     .addTemperature(80.12)
     .addHumidity(99.99)
     .addRawFloat(99.99)
@@ -270,13 +291,14 @@ getBytes() == {
     0x64, 0xa6, 0xfa, 0xfd, 0x6a, 0x24, 0x04, 0x09, // latitude,longitude
     0x0A, // Uint8
     0x9d, 0x5b, // Uint16
+    0xdd, 0xcc, 0xbb, 0xaa, // Uint32
     0x1f, 0x4c, // temperature
     0x0f, 0x27, // humidity
     0xe1, 0xfa, 0xc7, 0x42, // 4-byte float
     0xfd // Bitmap
 }
 and
-getLength() == 24
+getLength() == 28
 */
 ```
 
