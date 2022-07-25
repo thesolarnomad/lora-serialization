@@ -16,7 +16,7 @@ unixtime.BYTES = 4;
 
 var uint8 = function(bytes) {
   if (bytes.length !== uint8.BYTES) {
-    throw new Error('int must have exactly 1 byte');
+    throw new Error('uint8 must have exactly 1 byte');
   }
   return bytesToInt(bytes);
 };
