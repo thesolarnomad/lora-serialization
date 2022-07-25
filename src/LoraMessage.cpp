@@ -48,6 +48,11 @@ LoraMessage& LoraMessage::addUint16(uint16_t i) {
     return *this;
 }
 
+LoraMessage& LoraMessage::addUint32(uint32_t i) {
+    _reallocBuffer(4).writeUint32(i);
+    return *this;
+}
+
 LoraMessage& LoraMessage::addTemperature(float temperature) {
     _reallocBuffer(2).writeTemperature(temperature);
     return *this;
