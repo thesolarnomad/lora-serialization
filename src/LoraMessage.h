@@ -17,6 +17,7 @@ class LoraMessage {
         LoraMessage& addUnixtime(uint32_t unixtime);
         LoraMessage& addLatLng(double latitude, double longitude);
         LoraMessage& addUint16(uint16_t i);
+        LoraMessage& addUint32(uint32_t i);
         LoraMessage& addTemperature(float temperature);
         LoraMessage& addUint8(uint8_t i);
         LoraMessage& addHumidity(float humidity);
