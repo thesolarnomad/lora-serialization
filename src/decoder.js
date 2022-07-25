@@ -24,11 +24,19 @@ uint8.BYTES = 1;
 
 var uint16 = function(bytes) {
   if (bytes.length !== uint16.BYTES) {
-    throw new Error('int must have exactly 2 bytes');
+    throw new Error('uint16 must have exactly 2 bytes');
   }
   return bytesToInt(bytes);
 };
 uint16.BYTES = 2;
+
+var uint32 = function(bytes) {
+  if (bytes.length !== uint32.BYTES) {
+    throw new Error('uint32 must have exactly 4 bytes');
+  }
+  return bytesToInt(bytes);
+};
+uint32.BYTES = 4;
 
 var latLng = function(bytes) {
   if (bytes.length !== latLng.BYTES) {
@@ -135,6 +143,7 @@ if (typeof module === 'object' && typeof module.exports !== 'undefined') {
     unixtime: unixtime,
     uint8: uint8,
     uint16: uint16,
+    uint32: uint32,
     temperature: temperature,
     humidity: humidity,
     latLng: latLng,
