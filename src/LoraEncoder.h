@@ -37,7 +37,7 @@
 
 class LoraEncoder {
     public:
-        LoraEncoder(byte *buffer);
+        LoraEncoder(byte *buffer, bool opcodes = 0);
         void writeUnixtime(uint32_t unixtime);
         void writeLatLng(double latitude, double longitude);
         void writeUint16(uint16_t i);
@@ -50,6 +50,8 @@ class LoraEncoder {
     private:
         byte* _buffer;
         void _intToBytes(byte *buf, int32_t i, uint8_t byteSize);
+        void _addOpcode(byte *buf, uint8_t byteMode, uint8_t byteSize);
+        bool _opcodes;
 };
 
 #endif

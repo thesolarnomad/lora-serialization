@@ -25,24 +25,58 @@
 
 */
 
+#define O_TEMP 0x01 // Temperature is a one-byte code
+#define O_HUMI 0x02 // Humidity is a one-byte code
+#define O_AIRP 0x03 // Air pressure is a one-byte code
+#define O_GPS 0x04 // Short version: ONLY 3 bytes LAT and 3 bytes LONG
+#define O_GPSL 0x05 // Long GPS
+#define O_PIR 0x06 // Movement, 1 bit (=1 byte)
+#define O_AQ 0x07 // Airquality
+#define O_RTC 0x08 // Real Time Clock
+#define O_COMPASS 0x09 // Compass
+#define O_MB 0x0A // Multi Sensors 433
+#define O_MOIST 0x0B // Moisture is one-byte
+#define O_LUMI 0x0C // Luminescense u16
+#define O_DIST 0x0D // Distance is 2-byte
+#define O_GAS 0x0E // GAS
+
+/* 0x10 to 0x1F are free */
+
+#define O_BATT 0x20 // Internal Battery
+#define O_ADC0 0x21 // AD converter on pin 0
+#define O_ADC1 0x22
+
+// Reserved for LoRa messages (especially downstream)
+#define O_STAT 0x30 // Ask for status message from node
+#define O_SF 0x31 // Spreading factor change OFF=0, values 7-12
+#define O_TIM 0x32 // Timing of the wait cyclus (20 to 7200 seconds)
+#define O_1CH 0x33 // Single channel ON=1, OFF==0
+#define O_LOC 0x34 // Ask for the location. Responds with GPS location (if available)
+
 #if ARDUINO >= 100
     #include "Arduino.h"
 #endif
 #include "LoraEncoder.h"
 
-LoraEncoder::LoraEncoder(byte *buffer) {
+LoraEncoder::LoraEncoder(byte *buffer, bool opcodes) {
   _buffer = buffer;
+  _opcodes = opcodes;
+}
+
+void LoraEncoder::_addOpcode(byte *buf, uint8_t byteMode, uint8_t byteSize) {
+    buf[0] = byteMode << 2 | byteSize;
 }
 
 void LoraEncoder::_intToBytes(byte *buf, int32_t i, uint8_t byteSize) {
-    for(uint8_t x = 0; x < byteSize; x++) {
+    for(uint8_t x = _opcodes; x < (byteSize + _opcodes); x++) {
         buf[x] = (byte) (i >> (x*8));
     }
 }
 
 void LoraEncoder::writeUnixtime(uint32_t unixtime) {
+    if (_opcodes) { _addOpcode(_buffer, O_RTC, 4); }
     _intToBytes(_buffer, unixtime, 4);
-    _buffer += 4;
+    _buffer += 4 + _opcodes;
 }
 
 void LoraEncoder::writeLatLng(double latitude, double longitude) {
@@ -70,9 +104,10 @@ void LoraEncoder::writeUint8(uint8_t i) {
 }
 
 void LoraEncoder::writeHumidity(float humidity) {
+    if (_opcodes) { _addOpcode(_buffer, O_HUMI, 2); }
     int16_t h = (int16_t) (humidity * 100);
     _intToBytes(_buffer, h, 2);
-    _buffer += 2;
+    _buffer += 2 + _opcodes;
 }
 
 /**

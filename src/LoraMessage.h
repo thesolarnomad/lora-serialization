@@ -12,7 +12,7 @@
 
 class LoraMessage {
     public:
-        LoraMessage();
+        LoraMessage(bool opcodes = 0);
         ~LoraMessage();
         LoraMessage& addUnixtime(uint32_t unixtime);
         LoraMessage& addLatLng(double latitude, double longitude);
@@ -29,6 +29,7 @@ class LoraMessage {
         LoraEncoder _reallocBuffer(int delta);
         byte* _buffer;
         int _currentSize;
+        bool _opcodes;
 };
 
 #endif
