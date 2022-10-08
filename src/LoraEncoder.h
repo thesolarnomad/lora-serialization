@@ -47,8 +47,10 @@ class LoraEncoder {
         void writeHumidity(float humidity);
         void writeBitmap(bool a, bool b, bool c, bool d, bool e, bool f, bool g, bool h);
         void writeRawFloat(float value);
+        int getLength(void);
     private:
         byte* _buffer;
+        int _offset;
         void _intToBytes(byte *buf, int32_t i, uint8_t byteSize);
 };
 
