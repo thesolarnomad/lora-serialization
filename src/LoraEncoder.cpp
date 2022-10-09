@@ -51,8 +51,9 @@ void LoraEncoder::writeLatLng(double latitude, double longitude) {
     int32_t lng = longitude * 1e6;
 
     _intToBytes(_buffer + _offset, lat, 4);
-    _intToBytes(_buffer + _offset + 4, lng, 4);
-    _offset += 8;
+    _offset += 4;
+    _intToBytes(_buffer + _offset, lng, 4);
+    _offset += 4;
 }
 
 void LoraEncoder::writeUint32(uint32_t i) {
