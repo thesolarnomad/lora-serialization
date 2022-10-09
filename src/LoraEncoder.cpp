@@ -32,6 +32,7 @@
 
 LoraEncoder::LoraEncoder(byte *buffer) {
   _buffer = buffer;
+  _offset = 0;
 }
 
 void LoraEncoder::_intToBytes(byte *buf, int32_t i, uint8_t byteSize) {
@@ -41,38 +42,39 @@ void LoraEncoder::_intToBytes(byte *buf, int32_t i, uint8_t byteSize) {
 }
 
 void LoraEncoder::writeUnixtime(uint32_t unixtime) {
-    _intToBytes(_buffer, unixtime, 4);
-    _buffer += 4;
+    _intToBytes(_buffer + _offset, unixtime, 4);
+    _offset += 4;
 }
 
 void LoraEncoder::writeLatLng(double latitude, double longitude) {
     int32_t lat = latitude * 1e6;
     int32_t lng = longitude * 1e6;
 
-    _intToBytes(_buffer, lat, 4);
-    _intToBytes(_buffer + 4, lng, 4);
-    _buffer += 8;
+    _intToBytes(_buffer + _offset, lat, 4);
+    _offset += 4;
+    _intToBytes(_buffer + _offset, lng, 4);
+    _offset += 4;
 }
 
 void LoraEncoder::writeUint32(uint32_t i) {
-    _intToBytes(_buffer, i, 4);
-    _buffer += 4;
+    _intToBytes(_buffer + _offset, i, 4);
+    _offset += 4;
 }
 
 void LoraEncoder::writeUint16(uint16_t i) {
-    _intToBytes(_buffer, i, 2);
-    _buffer += 2;
+    _intToBytes(_buffer + _offset, i, 2);
+    _offset += 2;
 }
 
 void LoraEncoder::writeUint8(uint8_t i) {
-    _intToBytes(_buffer, i, 1);
-    _buffer += 1;
+    _intToBytes(_buffer + _offset, i, 1);
+    _offset += 1;
 }
 
 void LoraEncoder::writeHumidity(float humidity) {
     int16_t h = (int16_t) (humidity * 100);
-    _intToBytes(_buffer, h, 2);
-    _buffer += 2;
+    _intToBytes(_buffer + _offset, h, 2);
+    _offset += 2;
 }
 
 /**
@@ -85,9 +87,9 @@ void LoraEncoder::writeTemperature(float temperature) {
         t = ~-t;
         t = t + 1;
     }
-    _buffer[0] = (byte) ((t >> 8) & 0xFF);
-    _buffer[1] = (byte) t & 0xFF;
-    _buffer += 2;
+    _buffer[_offset  ] = (byte) ((t >> 8) & 0xFF);
+    _buffer[_offset+1] = (byte) t & 0xFF;
+    _offset += 2;
 }
 
 void LoraEncoder::writeBitmap(bool a, bool b, bool c, bool d, bool e, bool f, bool g, bool h) {
@@ -106,6 +108,10 @@ void LoraEncoder::writeBitmap(bool a, bool b, bool c, bool d, bool e, bool f, bo
 
 void LoraEncoder::writeRawFloat(float value) {
   uint32_t asbytes=*(reinterpret_cast<uint32_t*>(&value));
-  _intToBytes(_buffer, asbytes, 4);
-  _buffer += 4;
+  _intToBytes(_buffer + _offset, asbytes, 4);
+  _offset += 4;
+}
+
+int LoraEncoder::getLength(void) {
+    return _offset;
 }
