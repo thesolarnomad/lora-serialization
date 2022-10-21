@@ -24,11 +24,31 @@ message
 lora_send_bytes(message.getBytes(), message.getLength());
 delete message;
 ```
+
 TTN side:
+
 ```javascript
-// include src/decoder.js
-var json = decode(bytes, [unixtime, latLng], ['time', 'coords']);
-// json == {time: unixtime, coords: [latitude, longitude]}
+function decodeUplink(input)
+{
+    // decoder function according to https://www.thethingsindustries.com/docs/integrations/payload-formatters/javascript/uplink/
+    // input has the following structure:
+    // {
+    //   "bytes": [1, 2, 3], // FRMPayload (byte array)
+    //   "fPort": 1
+    // }
+    var data = decode(input.bytes, [unixtime, latLng], ['time', 'coords']);
+    return {data:data}
+}
+
+// include content from src/decoder.js:
+var bytesToInt = function(bytes) {
+  var i = 0;
+  for (var x = 0; x < bytes.length; x++) {
+    i |= +(bytes[x] << (x * 8));
+  }
+  return i;
+};
+...
 ```
 
 ### Encoding in TTN
@@ -91,7 +111,7 @@ encoder.writeUnixtime(1467632413);
 and then in the TTN frontend, use the following method:
 
 ```javascript
-unixtime(bytes.slice(x, x + 4)) // 1467632413
+unixtime(input.bytes.slice(x, x + 4)) // 1467632413
 ```
 
 ### GPS coordinates (8 bytes)
@@ -108,7 +128,7 @@ encoder.writeLatLng(-33.905052, 151.26641);
 and then in the TTN frontend, use the following method:
 
 ```javascript
-latLng(bytes.slice(x, x + 8)) // [-33.905052, 151.26641]
+latLng(input.bytes.slice(x, x + 8)) // [-33.905052, 151.26641]
 ```
 
 ### Unsigned 8bit Integer (1 byte)
@@ -126,7 +146,7 @@ encoder.writeUint8(i);
 and then in the TTN frontend, use the following method:
 
 ```javascript
-uint8(bytes.slice(x, x + 1)) // 10
+uint8(input.bytes.slice(x, x + 1)) // 10
 ```
 
 ### Unsigned 16bit Integer (2 bytes)
@@ -144,7 +164,7 @@ encoder.writeUint16(i);
 and then in the TTN frontend, use the following method:
 
 ```javascript
-uint16(bytes.slice(x, x + 2)) // 23453
+uint16(input.bytes.slice(x, x + 2)) // 23453
 ```
 
 ### Unsigned 32bit Integer (4 bytes)
@@ -162,7 +182,7 @@ encoder.writeUint32(i);
 and then in the TTN frontend, use the following method:
 
 ```javascript
-uint32(bytes.slice(x, x + 4)) // 2864434397
+uint32(input.bytes.slice(x, x + 4)) // 2864434397
 ```
 
 ### Temperature (2 bytes)
@@ -179,7 +199,7 @@ encoder.writeTemperature(-123.45);
 and then in the TTN frontend, use the following method:
 
 ```javascript
-temperature(bytes.slice(x, x + 2)) // -123.45
+temperature(input.bytes.slice(x, x + 2)) // -123.45
 ```
 
 ### Humidity (2 bytes)
@@ -196,7 +216,7 @@ encoder.writeHumidity(99.99);
 and then in the TTN frontend, use the following method:
 
 ```javascript
-humidity(bytes.slice(x, x + 2)) // 99.99
+humidity(input.bytes.slice(x, x + 2)) // 99.99
 ```
 
 ### Full float (4 bytes)
@@ -213,7 +233,7 @@ encoder.writeRawFloat(99.99);
 and then in the TTN frontend, use the following method:
 
 ```javascript
-rawfloat(bytes.slice(x, x + 4)) // 99.99
+rawfloat(input.bytes.slice(x, x + 4)) // 99.99
 ```
 
 ### Bitmap (1 byte)
@@ -230,7 +250,7 @@ encoder.writeBitmap(true, false, false, false, false, false, false, false);
 and then in the TTN frontend, use the following method:
 
 ```javascript
-bitmap(bytes.slice(x, x + 1)) // { a: true, b: false, c: false, d: false, e: false, f: false, g: false, h: false }
+bitmap(input.bytes.slice(x, x + 1)) // { a: true, b: false, c: false, d: false, e: false, f: false, g: false, h: false }
 ```
 
 ## Composition
