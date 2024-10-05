@@ -1,6 +1,9 @@
 #if ARDUINO >= 100
     #include "Arduino.h"
 #endif
+#ifdef ESP_PLATFORM
+    #include <cstdio>
+#endif
 #include <stdlib.h>
 #include "LoraMessage.h"
 #include "LoraEncoder.h"

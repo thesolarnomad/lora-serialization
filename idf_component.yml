@@ -1,0 +1,11 @@
+dependencies:
+  idf: '>=4.1'
+description: LoRaWAN serialization/deserialization library for The Things Network
+license: MIT
+repository: https://github.com/thesolarnomad/lora-serialization.git
+tags:
+- LoRaWAN
+- encoding
+- serialization
+- deserialization
+version: 3.2.1
