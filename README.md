@@ -368,3 +368,23 @@ The decode method already does most of the necessary transformations, so in most
 * Check the coverage (JavaScript) via `yarn coverage` (see `coverage/lcov-report`)
 
 The CI will kick off once you create a pull request automatically.
+
+# Installation
+
+## ESP-IDF
+
+Add the `lora-serialization` dependency to the `main/idf_component.yml` file in your ESP-IDF project:
+
+```
+dependencies:
+  lora-serialization:
+    git: https://github.com/thesolarnomad/lora-serialization.git
+```
+
+As well as to the `main/CMakeLists.txt`
+
+```
+idf_component_register( ...
+                        REQUIRES .... lora-serialization
+                      )
+```
